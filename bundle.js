@@ -191,10 +191,15 @@ var HoldingAmountPage = /*#__PURE__*/function () {
     _defineProperty(this, "render", function (_ref) {
       var state = _ref.state,
           changeStates = _ref.changeStates;
-      changeStates.forEach(function (stateKey) {
+      var renderMethods = changeStates.reduce(function (previous, stateKey) {
         _this.renderMethodList[stateKey].forEach(function (renderMethod) {
-          return renderMethod(state);
+          return previous.add(renderMethod);
         });
+
+        return previous;
+      }, new Set());
+      renderMethods.forEach(function (renderMethod) {
+        return renderMethod(state);
       });
     });
 
@@ -317,10 +322,15 @@ var ProductPage = /*#__PURE__*/function () {
     _defineProperty(this, "render", function (_ref) {
       var state = _ref.state,
           changeStates = _ref.changeStates;
-      changeStates.forEach(function (stateKey) {
+      var renderMethods = changeStates.reduce(function (previous, stateKey) {
         _this.renderMethodList[stateKey].forEach(function (renderMethod) {
-          return renderMethod(state);
+          return previous.add(renderMethod);
         });
+
+        return previous;
+      }, new Set());
+      renderMethods.forEach(function (renderMethod) {
+        return renderMethod(state);
       });
     });
 
