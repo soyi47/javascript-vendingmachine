@@ -306,6 +306,8 @@ var ProductPage = /*#__PURE__*/function () {
 
     _defineProperty(this, "$table", void 0);
 
+    _defineProperty(this, "isTableUpdating", void 0);
+
     _defineProperty(this, "loadPage", function () {
       (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('main').innerHTML = _Display_template__WEBPACK_IMPORTED_MODULE_3__.template.productPage;
 
@@ -334,6 +336,47 @@ var ProductPage = /*#__PURE__*/function () {
       });
     });
 
+    _defineProperty(this, "onSubmitAddProductForm", function (event) {
+      event.preventDefault();
+      var product = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.getInnerInputValues)(event.target);
+
+      try {
+        (0,_Utils_VendingMachine_validator__WEBPACK_IMPORTED_MODULE_1__.validateProduct)(product);
+      } catch (error) {
+        alert(error.message);
+        return;
+      }
+
+      _Store_ProductStore__WEBPACK_IMPORTED_MODULE_2__["default"].addOrUpdateProduct(product);
+      (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.clearInnerInputValues)(event.target);
+    });
+
+    _defineProperty(this, "onClickTableInnerButton", function (event) {
+      var targetClassList = event.target.classList;
+
+      switch (true) {
+        case targetClassList.contains('product-update-button'):
+          _this.onClickUpdateButton(event);
+
+          break;
+
+        case targetClassList.contains('product-update-confirm-button'):
+          _this.onClickUpdateConfirmButton(event);
+
+          break;
+
+        case targetClassList.contains('product-update-cancel-button'):
+          _this.onClickUpdateCancelButton(event);
+
+          break;
+
+        case targetClassList.contains('product-delete-button'):
+          _this.onClickDeleteButton(event);
+
+          break;
+      }
+    });
+
     _defineProperty(this, "drawProductList", function (_ref2) {
       var products = _ref2.products;
       var productItem = _Display_template__WEBPACK_IMPORTED_MODULE_3__.template.productTableRows(products);
@@ -342,6 +385,7 @@ var ProductPage = /*#__PURE__*/function () {
 
     _Store_ProductStore__WEBPACK_IMPORTED_MODULE_2__["default"].addSubscriber(this.render);
     this.setRenderMethodList();
+    this.isTableUpdating = false;
   }
 
   _createClass(ProductPage, [{
@@ -362,62 +406,20 @@ var ProductPage = /*#__PURE__*/function () {
   }, {
     key: "setEvents",
     value: function setEvents() {
-      var _this2 = this;
-
       this.$addForm.addEventListener('submit', this.onSubmitAddProductForm);
-      this.$table.addEventListener('click', function (event) {
-        if (event.target.classList.contains('product-update-button')) {
-          _this2.onClickUpdateButton(event);
-        }
-
-        if (event.target.classList.contains('product-update-confirm-button')) {
-          _this2.onClickUpdateConfirmButton(event);
-        }
-
-        if (event.target.classList.contains('product-update-cancel-button')) {
-          _this2.onClickUpdateCancelButton(event);
-        }
-
-        if (event.target.classList.contains('product-delete-button')) {
-          _this2.onClickDeleteButton(event);
-        }
-      });
-    }
-  }, {
-    key: "onSubmitAddProductForm",
-    value: function onSubmitAddProductForm(event) {
-      event.preventDefault();
-      var $$inputs = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$$)('input', event.target);
-      var product = Array.from($$inputs).reduce(function (previous, inputElement) {
-        previous[inputElement.name] = inputElement.type === 'number' ? Number(inputElement.value) : inputElement.value;
-        return previous;
-      }, {});
-
-      try {
-        (0,_Utils_VendingMachine_validator__WEBPACK_IMPORTED_MODULE_1__.validateProduct)(product);
-      } catch (error) {
-        alert(error.message);
-        return;
-      }
-
-      var productIndex = _Store_ProductStore__WEBPACK_IMPORTED_MODULE_2__["default"].findProductIndexByName(product.name);
-
-      if (productIndex === -1) {
-        _Store_ProductStore__WEBPACK_IMPORTED_MODULE_2__["default"].addProduct(product);
-        $$inputs.forEach(function ($input) {
-          return $input.value = '';
-        });
-        return;
-      }
-
-      if (confirm('이미 존재하는 상품입니다.\n기존 상품 목록에서 덮어씌우시겠습니까?')) {
-        _Store_ProductStore__WEBPACK_IMPORTED_MODULE_2__["default"].updateProduct(productIndex, product);
-      }
+      this.$table.addEventListener('click', this.onClickTableInnerButton);
     }
   }, {
     key: "onClickUpdateButton",
     value: function onClickUpdateButton(_ref3) {
       var $target = _ref3.target;
+
+      if (this.isTableUpdating) {
+        alert('한 번에 하나의 상품만 수정 가능합니다.');
+        return;
+      }
+
+      this.isTableUpdating = !this.isTableUpdating;
       var $tableRow = $target.closest('tr[data-primary-key]');
       if (!$tableRow) return;
       var productIndex = $tableRow.dataset.primaryKey;
@@ -434,10 +436,7 @@ var ProductPage = /*#__PURE__*/function () {
       var $tableRow = $target.closest('tr[data-primary-key]');
       if (!$tableRow) return;
       var productIndex = $tableRow.dataset.primaryKey;
-      var product = Array.from((0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$$)('input', $tableRow)).reduce(function (previous, inputElement) {
-        previous[inputElement.name] = inputElement.type === 'number' ? Number(inputElement.value) : inputElement.value;
-        return previous;
-      }, {});
+      var product = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.getInnerInputValues)($tableRow);
 
       try {
         (0,_Utils_VendingMachine_validator__WEBPACK_IMPORTED_MODULE_1__.validateProduct)(product);
@@ -447,6 +446,7 @@ var ProductPage = /*#__PURE__*/function () {
       }
 
       _Store_ProductStore__WEBPACK_IMPORTED_MODULE_2__["default"].updateProduct(productIndex, product);
+      this.isTableUpdating = !this.isTableUpdating;
     }
   }, {
     key: "onClickUpdateCancelButton",
@@ -460,6 +460,7 @@ var ProductPage = /*#__PURE__*/function () {
           products = _ProductStore$getStat2.products;
 
       $tableRow.innerHTML = _Display_template__WEBPACK_IMPORTED_MODULE_3__.template.productTableRowInners(products[productIndex]);
+      this.isTableUpdating = !this.isTableUpdating;
     }
   }, {
     key: "onClickDeleteButton",
@@ -517,7 +518,7 @@ var template = {
     var name = _ref3.name,
         price = _ref3.price,
         quantity = _ref3.quantity;
-    return "\n    <td><input type=\"text\" name=\"name\" placeholder=\"\uC0C1\uD488\uBA85\" value=\"".concat(name, "\"></td>\n    <td><input type=\"number\" name=\"price\" placeholder=\"\uAC00\uACA9\" value=\"").concat(price.toLocaleString(), "\"></td>\n    <td><input type=\"number\" name=\"quantity\" placeholder=\"\uC218\uB7C9\" value=\"").concat(quantity, "\"></td>\n    <td>\n      <div class=\"button-group\">\n        <button class=\"button product-update-confirm-button\" type=\"button\">\uD655\uC778</button>\n        <button class=\"button product-update-cancel-button\" type=\"button\">\uCDE8\uC18C</button>\n      </div>\n    </td>\n");
+    return "\n    <td><input type=\"text\" name=\"name\" placeholder=\"\uC0C1\uD488\uBA85\" value=\"".concat(name, "\"></td>\n    <td><input type=\"number\" name=\"price\" placeholder=\"\uAC00\uACA9\" value=\"").concat(price, "\"></td>\n    <td><input type=\"number\" name=\"quantity\" placeholder=\"\uC218\uB7C9\" value=\"").concat(quantity, "\"></td>\n    <td>\n      <div class=\"button-group\">\n        <button class=\"button product-update-confirm-button\" type=\"button\">\uD655\uC778</button>\n        <button class=\"button product-update-cancel-button\" type=\"button\">\uCDE8\uC18C</button>\n      </div>\n    </td>\n");
   },
   holdingAmountTableRows: function holdingAmountTableRows(coins) {
     return coins.map(function (coin, index) {
@@ -692,6 +693,16 @@ var ProductStore = /** @class */ (function () {
     ProductStore.prototype.findProductIndexByName = function (name) {
         return this.state.products.findIndex(function (product) { return product.name === name; });
     };
+    ProductStore.prototype.addOrUpdateProduct = function (product) {
+        var productIndex = this.findProductIndexByName(product.name);
+        if (productIndex === -1) {
+            this.addProduct(product);
+            return;
+        }
+        if (confirm('이미 존재하는 상품입니다.\n기존 상품 목록에서 덮어씌우시겠습니까?')) {
+            this.updateProduct(productIndex, product);
+        }
+    };
     return ProductStore;
 }());
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new ProductStore());
@@ -713,8 +724,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var COIN_TYPE = [500, 100, 50, 10].sort(function (a, b) { return b - a; });
 var VENDING_MACHINE = {
-    MIN_PRODUCT_NAME: 1,
-    MAX_PRODUCT_NAME: 10,
+    MIN_PRODUCT_NAME_LENGTH: 1,
+    MAX_PRODUCT_NAME_LENGTH: 10,
     MIN_PRODUCT_PRICE: 100,
     MAX_PRODUCT_PRICE: 10000,
     MIN_PRODUCT_QUANTITY: 1,
@@ -724,7 +735,7 @@ var VENDING_MACHINE = {
 };
 var ERROR_MESSAGE = {
     PRODUCT_NAME_REQUIRED: '상품명을 입력해주세요.',
-    PRODUCT_NAME_LENGTH: "\uC0C1\uD488\uBA85\uC740 ".concat(VENDING_MACHINE.MIN_PRODUCT_NAME, "\uC790\uC5D0\uC11C ").concat(VENDING_MACHINE.MAX_PRODUCT_NAME, "\uC790\uAE4C\uC9C0 \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
+    PRODUCT_NAME_LENGTH: "\uC0C1\uD488\uBA85\uC740 ".concat(VENDING_MACHINE.MIN_PRODUCT_NAME_LENGTH, "\uC790\uC5D0\uC11C ").concat(VENDING_MACHINE.MAX_PRODUCT_NAME_LENGTH, "\uC790\uAE4C\uC9C0 \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
     PRODUCT_PRICE_ONLY_NUMBER: '상품 가격은 숫자만 입력할 수 있습니다.',
     PRODUCT_PRICE_WRONG_RANGE: "\uC0C1\uD488 \uAC00\uACA9\uC740 ".concat(VENDING_MACHINE.MIN_PRODUCT_PRICE, "\uC6D0\uC5D0\uC11C ").concat(VENDING_MACHINE.MAX_PRODUCT_PRICE, "\uC6D0\uAE4C\uC9C0 \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
     PRODUCT_PRICE_WRONG_UNIT: "\uC0C1\uD488 \uAC00\uACA9\uC740 ".concat(VENDING_MACHINE.MONEY_UNIT, "\uC6D0 \uB2E8\uC704\uB85C \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
@@ -755,10 +766,10 @@ __webpack_require__.r(__webpack_exports__);
 
 var validateProduct = function (product) {
     var name = product.name, price = product.price, quantity = product.quantity;
-    var MIN_PRODUCT_NAME = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MIN_PRODUCT_NAME, MAX_PRODUCT_NAME = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_PRODUCT_NAME, MIN_PRODUCT_PRICE = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MIN_PRODUCT_PRICE, MAX_PRODUCT_PRICE = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_PRODUCT_PRICE, MONEY_UNIT = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MONEY_UNIT, MIN_PRODUCT_QUANTITY = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MIN_PRODUCT_QUANTITY, MAX_PRODUCT_QUANTITY = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_PRODUCT_QUANTITY;
+    var MIN_PRODUCT_NAME_LENGTH = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MIN_PRODUCT_NAME_LENGTH, MAX_PRODUCT_NAME_LENGTH = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_PRODUCT_NAME_LENGTH, MIN_PRODUCT_PRICE = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MIN_PRODUCT_PRICE, MAX_PRODUCT_PRICE = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_PRODUCT_PRICE, MONEY_UNIT = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MONEY_UNIT, MIN_PRODUCT_QUANTITY = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MIN_PRODUCT_QUANTITY, MAX_PRODUCT_QUANTITY = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_PRODUCT_QUANTITY;
     if (name === '')
         throw new Error(_Constants_index__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_NAME_REQUIRED);
-    if (!(0,_index__WEBPACK_IMPORTED_MODULE_1__.isStringLengthInRange)(name, MIN_PRODUCT_NAME, MAX_PRODUCT_NAME))
+    if (!(0,_index__WEBPACK_IMPORTED_MODULE_1__.isStringLengthInRange)(name, MIN_PRODUCT_NAME_LENGTH, MAX_PRODUCT_NAME_LENGTH))
         throw new Error(_Constants_index__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_NAME_LENGTH);
     if (!Number.isInteger(price))
         throw new Error(_Constants_index__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_PRICE_ONLY_NUMBER);
@@ -800,7 +811,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "isNumberInRange": () => (/* binding */ isNumberInRange),
 /* harmony export */   "isStringLengthInRange": () => (/* binding */ isStringLengthInRange),
 /* harmony export */   "isCorrectNumberUnit": () => (/* binding */ isCorrectNumberUnit),
-/* harmony export */   "getSearchParamsObject": () => (/* binding */ getSearchParamsObject)
+/* harmony export */   "getSearchParamsObject": () => (/* binding */ getSearchParamsObject),
+/* harmony export */   "getInnerInputValues": () => (/* binding */ getInnerInputValues),
+/* harmony export */   "clearInnerInputValues": () => (/* binding */ clearInnerInputValues)
 /* harmony export */ });
 var $ = function (selector, node) {
     if (node === void 0) { node = document; }
@@ -828,6 +841,17 @@ var getSearchParamsObject = function (searchUrl) {
         previous[key] = searchParams.get(key);
         return previous;
     }, {});
+};
+var getInnerInputValues = function ($target) {
+    var $$inputs = Array.from($$('input', $target));
+    return $$inputs.reduce(function (previous, inputElement) {
+        previous[inputElement.name] = inputElement.type === 'number' ? Number(inputElement.value) : inputElement.value;
+        return previous;
+    }, {});
+};
+var clearInnerInputValues = function ($target) {
+    var $$inputs = Array.from($$('input', $target));
+    $$inputs.forEach(function ($input) { return ($input.value = ''); });
 };
 
 
