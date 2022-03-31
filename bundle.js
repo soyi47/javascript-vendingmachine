@@ -2,68 +2,18 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/es/display/Header.js":
-/*!**********************************!*\
-  !*** ./src/es/display/Header.js ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Header)
-/* harmony export */ });
-/* harmony import */ var _Utils_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @Utils/index */ "./src/es/utils/index.ts");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-var Header = /*#__PURE__*/function () {
-  function Header() {
-    _classCallCheck(this, Header);
-
-    _defineProperty(this, "$container", (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('header'));
-  }
-
-  _createClass(Header, [{
-    key: "render",
-    value: function render(state) {
-      this.drawNavigationMenu(state);
-    }
-  }, {
-    key: "drawNavigationMenu",
-    value: function drawNavigationMenu(_ref) {
-      var currentPage = _ref.currentPage;
-      (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('.nav .selected').classList.remove('selected');
-      var selectedMenu = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)(".nav-menu[data-route*=\"".concat(currentPage, "\"]"));
-      selectedMenu.classList.add('selected');
-    }
-  }]);
-
-  return Header;
-}();
-
-
-
-/***/ }),
-
-/***/ "./src/es/display/Router.js":
-/*!**********************************!*\
-  !*** ./src/es/display/Router.js ***!
-  \**********************************/
+/***/ "./src/es/Router.js":
+/*!**************************!*\
+  !*** ./src/es/Router.js ***!
+  \**************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Router)
 /* harmony export */ });
-/* harmony import */ var _Utils_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @Utils/index */ "./src/es/utils/index.ts");
-/* harmony import */ var _Display_Header__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @Display/Header */ "./src/es/display/Header.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/es/utils/index.ts");
+/* harmony import */ var _View_HeaderView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./View/HeaderView */ "./src/es/View/HeaderView.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -81,7 +31,7 @@ var Router = /*#__PURE__*/function () {
 
     _defineProperty(this, "pathname", window.location.pathname.slice(0, -1));
 
-    _defineProperty(this, "pageHeader", new _Display_Header__WEBPACK_IMPORTED_MODULE_1__["default"]());
+    _defineProperty(this, "pageHeader", new _View_HeaderView__WEBPACK_IMPORTED_MODULE_1__["default"]());
 
     _defineProperty(this, "pageList", void 0);
 
@@ -95,7 +45,7 @@ var Router = /*#__PURE__*/function () {
     value: function setEvents() {
       var _this = this;
 
-      (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('#app').addEventListener('click', function (event) {
+      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('#app').addEventListener('click', function (event) {
         var routeURL = event.target.dataset.route;
         if (!routeURL) return;
 
@@ -108,13 +58,13 @@ var Router = /*#__PURE__*/function () {
   }, {
     key: "pushState",
     value: function pushState(searchUrl) {
-      window.history.pushState((0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.getSearchParamsObject)(searchUrl), '', this.pathname + searchUrl);
+      window.history.pushState((0,_utils__WEBPACK_IMPORTED_MODULE_0__.getSearchParamsObject)(searchUrl), '', this.pathname + searchUrl);
       this.pageRender(searchUrl);
     }
   }, {
     key: "pageRender",
     value: function pageRender(searchUrl) {
-      var _getSearchParamsObjec = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.getSearchParamsObject)(searchUrl),
+      var _getSearchParamsObjec = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getSearchParamsObject)(searchUrl),
           _getSearchParamsObjec2 = _getSearchParamsObjec.page,
           page = _getSearchParamsObjec2 === void 0 ? 'product' : _getSearchParamsObjec2;
 
@@ -132,20 +82,70 @@ var Router = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/es/display/pages/HoldingAmountPage.js":
-/*!***************************************************!*\
-  !*** ./src/es/display/pages/HoldingAmountPage.js ***!
-  \***************************************************/
+/***/ "./src/es/View/HeaderView.js":
+/*!***********************************!*\
+  !*** ./src/es/View/HeaderView.js ***!
+  \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ HoldingAmountPage)
+/* harmony export */   "default": () => (/* binding */ HeaderView)
 /* harmony export */ });
-/* harmony import */ var _Utils_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @Utils/index */ "./src/es/utils/index.ts");
-/* harmony import */ var _Utils_VendingMachine_validator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @Utils/VendingMachine/validator */ "./src/es/utils/VendingMachine/validator.ts");
-/* harmony import */ var _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @Store/HoldingAmountStore */ "./src/es/Store/HoldingAmountStore.ts");
-/* harmony import */ var _Display_template__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @Display/template */ "./src/es/display/template.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var HeaderView = /*#__PURE__*/function () {
+  function HeaderView() {
+    _classCallCheck(this, HeaderView);
+
+    _defineProperty(this, "$container", (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('header'));
+  }
+
+  _createClass(HeaderView, [{
+    key: "render",
+    value: function render(state) {
+      this.drawNavigationMenu(state);
+    }
+  }, {
+    key: "drawNavigationMenu",
+    value: function drawNavigationMenu(_ref) {
+      var currentPage = _ref.currentPage;
+      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('.nav .selected').classList.remove('selected');
+      var selectedMenu = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)(".nav-menu[data-route*=\"".concat(currentPage, "\"]"));
+      selectedMenu.classList.add('selected');
+    }
+  }]);
+
+  return HeaderView;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/es/View/HoldingAmountPageView.js":
+/*!**********************************************!*\
+  !*** ./src/es/View/HoldingAmountPageView.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ HoldingAmountPageView)
+/* harmony export */ });
+/* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template */ "./src/es/View/template.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
+/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../validation */ "./src/es/validation.ts");
+/* harmony import */ var _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Store/HoldingAmountStore */ "./src/es/Store/HoldingAmountStore.ts");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -159,11 +159,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var HoldingAmountPage = /*#__PURE__*/function () {
-  function HoldingAmountPage() {
+var HoldingAmountPageView = /*#__PURE__*/function () {
+  function HoldingAmountPageView() {
     var _this = this;
 
-    _classCallCheck(this, HoldingAmountPage);
+    _classCallCheck(this, HoldingAmountPageView);
 
     _defineProperty(this, "renderMethodList", void 0);
 
@@ -176,12 +176,12 @@ var HoldingAmountPage = /*#__PURE__*/function () {
     _defineProperty(this, "$table", void 0);
 
     _defineProperty(this, "loadPage", function () {
-      (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('main').innerHTML = _Display_template__WEBPACK_IMPORTED_MODULE_3__.template.holdingAmountPage;
+      (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('main').innerHTML = _template__WEBPACK_IMPORTED_MODULE_0__.template.holdingAmountPage;
 
       _this.setDom();
 
       _this.render({
-        state: _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_2__["default"].getState(),
+        state: _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_3__["default"].getState(),
         changeStates: Object.keys(_this.renderMethodList)
       });
 
@@ -204,26 +204,26 @@ var HoldingAmountPage = /*#__PURE__*/function () {
     });
 
     _defineProperty(this, "drawTotalHoldingAmount", function () {
-      var totalAmount = _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_2__["default"].getTotalAmount();
-      (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('#total-holding-amount', _this.$addFormSection).innerText = "".concat(totalAmount.toLocaleString(), "\uC6D0");
+      var totalAmount = _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_3__["default"].getTotalAmount();
+      (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('#total-holding-amount', _this.$addFormSection).innerText = "".concat(totalAmount.toLocaleString(), "\uC6D0");
     });
 
     _defineProperty(this, "drawHoldingAmountList", function (_ref2) {
       var coins = _ref2.coins;
-      (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('tbody', _this.$table).innerHTML = _Display_template__WEBPACK_IMPORTED_MODULE_3__.template.holdingAmountTableRows(coins);
+      (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('tbody', _this.$table).innerHTML = _template__WEBPACK_IMPORTED_MODULE_0__.template.holdingAmountTableRows(coins);
     });
 
-    _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_2__["default"].addSubscriber(this.render);
+    _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_3__["default"].addSubscriber(this.render);
     this.setRenderMethodList();
   }
 
-  _createClass(HoldingAmountPage, [{
+  _createClass(HoldingAmountPageView, [{
     key: "setDom",
     value: function setDom() {
-      this.$addFormSection = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('#add-holding-amount-form-section');
-      this.$addForm = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('#add-holding-amount-form', this.$addFormSection);
-      this.$tableSection = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('#holding-amount-table-section');
-      this.$table = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('#holding-amount-table', this.$tableSection);
+      this.$addFormSection = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('#add-holding-amount-form-section');
+      this.$addForm = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('#add-holding-amount-form', this.$addFormSection);
+      this.$tableSection = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('#holding-amount-table-section');
+      this.$table = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('#holding-amount-table', this.$tableSection);
     }
   }, {
     key: "setRenderMethodList",
@@ -241,42 +241,42 @@ var HoldingAmountPage = /*#__PURE__*/function () {
     key: "onSubmitAddHoldingAmountForm",
     value: function onSubmitAddHoldingAmountForm(event) {
       event.preventDefault();
-      var $input = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('input[name="add-holding-amount"]', event.target);
-      var totalAmount = _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_2__["default"].getTotalAmount();
+      var $input = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('input[name="add-holding-amount"]', event.target);
+      var totalAmount = _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_3__["default"].getTotalAmount();
 
       try {
-        (0,_Utils_VendingMachine_validator__WEBPACK_IMPORTED_MODULE_1__.validateHoldingAmountToAdd)(Number($input.value), totalAmount);
+        (0,_validation__WEBPACK_IMPORTED_MODULE_2__.validateHoldingAmountToAdd)(Number($input.value), totalAmount);
       } catch (error) {
         alert(error.message);
         return;
       }
 
-      _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_2__["default"].addAmount($input.value);
+      _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_3__["default"].addAmount($input.value);
       $input.value = '';
     }
   }]);
 
-  return HoldingAmountPage;
+  return HoldingAmountPageView;
 }();
 
 
 
 /***/ }),
 
-/***/ "./src/es/display/pages/ProductPage.js":
-/*!*********************************************!*\
-  !*** ./src/es/display/pages/ProductPage.js ***!
-  \*********************************************/
+/***/ "./src/es/View/ProductPageView.js":
+/*!****************************************!*\
+  !*** ./src/es/View/ProductPageView.js ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ ProductPage)
+/* harmony export */   "default": () => (/* binding */ ProductPageView)
 /* harmony export */ });
-/* harmony import */ var _Utils_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @Utils/index */ "./src/es/utils/index.ts");
-/* harmony import */ var _Utils_VendingMachine_validator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @Utils/VendingMachine/validator */ "./src/es/utils/VendingMachine/validator.ts");
-/* harmony import */ var _Store_ProductStore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @Store/ProductStore */ "./src/es/Store/ProductStore.ts");
-/* harmony import */ var _Display_template__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @Display/template */ "./src/es/display/template.js");
+/* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template */ "./src/es/View/template.js");
+/* harmony import */ var _Store_ProductStore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Store/ProductStore */ "./src/es/Store/ProductStore.ts");
+/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../validation */ "./src/es/validation.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -290,11 +290,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var ProductPage = /*#__PURE__*/function () {
-  function ProductPage() {
+var ProductPageView = /*#__PURE__*/function () {
+  function ProductPageView() {
     var _this = this;
 
-    _classCallCheck(this, ProductPage);
+    _classCallCheck(this, ProductPageView);
 
     _defineProperty(this, "renderMethodList", void 0);
 
@@ -309,12 +309,12 @@ var ProductPage = /*#__PURE__*/function () {
     _defineProperty(this, "isTableUpdating", void 0);
 
     _defineProperty(this, "loadPage", function () {
-      (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('main').innerHTML = _Display_template__WEBPACK_IMPORTED_MODULE_3__.template.productPage;
+      (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('main').innerHTML = _template__WEBPACK_IMPORTED_MODULE_0__.template.productPage;
 
       _this.setDom();
 
       _this.render({
-        state: _Store_ProductStore__WEBPACK_IMPORTED_MODULE_2__["default"].getState(),
+        state: _Store_ProductStore__WEBPACK_IMPORTED_MODULE_1__["default"].getState(),
         changeStates: Object.keys(_this.renderMethodList)
       });
 
@@ -338,40 +338,40 @@ var ProductPage = /*#__PURE__*/function () {
 
     _defineProperty(this, "onSubmitAddProductForm", function (event) {
       event.preventDefault();
-      var product = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.getInnerInputValues)(event.target);
+      var product = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.getInnerInputValues)(event.target);
 
       try {
-        (0,_Utils_VendingMachine_validator__WEBPACK_IMPORTED_MODULE_1__.validateProduct)(product);
+        (0,_validation__WEBPACK_IMPORTED_MODULE_2__.validateProduct)(product);
       } catch (error) {
         alert(error.message);
         return;
       }
 
-      _Store_ProductStore__WEBPACK_IMPORTED_MODULE_2__["default"].addOrUpdateProduct(product);
-      (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.clearInnerInputValues)(event.target);
+      _Store_ProductStore__WEBPACK_IMPORTED_MODULE_1__["default"].addOrUpdateProduct(product);
+      (0,_utils__WEBPACK_IMPORTED_MODULE_3__.clearInnerInputValues)(event.target);
     });
 
     _defineProperty(this, "onClickTableInnerButton", function (event) {
-      var targetClassList = event.target.classList;
+      if (event.target.type !== 'button') return;
 
-      switch (true) {
-        case targetClassList.contains('product-update-button'):
+      switch (event.target.name) {
+        case 'product-update':
           _this.onClickUpdateButton(event);
 
           break;
 
-        case targetClassList.contains('product-update-confirm-button'):
+        case 'product-delete':
+          _this.onClickDeleteButton(event);
+
+          break;
+
+        case 'product-update-confirm':
           _this.onClickUpdateConfirmButton(event);
 
           break;
 
-        case targetClassList.contains('product-update-cancel-button'):
+        case 'product-update-cancel':
           _this.onClickUpdateCancelButton(event);
-
-          break;
-
-        case targetClassList.contains('product-delete-button'):
-          _this.onClickDeleteButton(event);
 
           break;
       }
@@ -379,22 +379,22 @@ var ProductPage = /*#__PURE__*/function () {
 
     _defineProperty(this, "drawProductList", function (_ref2) {
       var products = _ref2.products;
-      var productItem = _Display_template__WEBPACK_IMPORTED_MODULE_3__.template.productTableRows(products);
-      (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('tbody', _this.$table).innerHTML = productItem;
+      var productItem = _template__WEBPACK_IMPORTED_MODULE_0__.template.productTableRows(products);
+      (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('tbody', _this.$table).innerHTML = productItem;
     });
 
-    _Store_ProductStore__WEBPACK_IMPORTED_MODULE_2__["default"].addSubscriber(this.render);
+    _Store_ProductStore__WEBPACK_IMPORTED_MODULE_1__["default"].addSubscriber(this.render);
     this.setRenderMethodList();
     this.isTableUpdating = false;
   }
 
-  _createClass(ProductPage, [{
+  _createClass(ProductPageView, [{
     key: "setDom",
     value: function setDom() {
-      this.$addFormSection = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('#add-product-form-section');
-      this.$addForm = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('#add-product-form', this.$addFormSection);
-      this.$tableSection = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('#product-table-section');
-      this.$table = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.$)('#product-table', this.$tableSection);
+      this.$addFormSection = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('#add-product-form-section');
+      this.$addForm = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('#add-product-form', this.$addFormSection);
+      this.$tableSection = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('#product-table-section');
+      this.$table = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('#product-table', this.$tableSection);
     }
   }, {
     key: "setRenderMethodList",
@@ -424,10 +424,10 @@ var ProductPage = /*#__PURE__*/function () {
       if (!$tableRow) return;
       var productIndex = $tableRow.dataset.primaryKey;
 
-      var _ProductStore$getStat = _Store_ProductStore__WEBPACK_IMPORTED_MODULE_2__["default"].getState(),
+      var _ProductStore$getStat = _Store_ProductStore__WEBPACK_IMPORTED_MODULE_1__["default"].getState(),
           products = _ProductStore$getStat.products;
 
-      $tableRow.innerHTML = _Display_template__WEBPACK_IMPORTED_MODULE_3__.template.productTableRowUpdate(products[productIndex]);
+      $tableRow.innerHTML = _template__WEBPACK_IMPORTED_MODULE_0__.template.productTableRowUpdate(products[productIndex]);
     }
   }, {
     key: "onClickUpdateConfirmButton",
@@ -436,16 +436,16 @@ var ProductPage = /*#__PURE__*/function () {
       var $tableRow = $target.closest('tr[data-primary-key]');
       if (!$tableRow) return;
       var productIndex = $tableRow.dataset.primaryKey;
-      var product = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.getInnerInputValues)($tableRow);
+      var product = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.getInnerInputValues)($tableRow);
 
       try {
-        (0,_Utils_VendingMachine_validator__WEBPACK_IMPORTED_MODULE_1__.validateProduct)(product);
+        (0,_validation__WEBPACK_IMPORTED_MODULE_2__.validateProduct)(product);
       } catch (error) {
         alert(error.message);
         return;
       }
 
-      _Store_ProductStore__WEBPACK_IMPORTED_MODULE_2__["default"].updateProduct(productIndex, product);
+      _Store_ProductStore__WEBPACK_IMPORTED_MODULE_1__["default"].updateProduct(productIndex, product);
       this.isTableUpdating = !this.isTableUpdating;
     }
   }, {
@@ -456,10 +456,10 @@ var ProductPage = /*#__PURE__*/function () {
       if (!$tableRow) return;
       var productIndex = $tableRow.dataset.primaryKey;
 
-      var _ProductStore$getStat2 = _Store_ProductStore__WEBPACK_IMPORTED_MODULE_2__["default"].getState(),
+      var _ProductStore$getStat2 = _Store_ProductStore__WEBPACK_IMPORTED_MODULE_1__["default"].getState(),
           products = _ProductStore$getStat2.products;
 
-      $tableRow.innerHTML = _Display_template__WEBPACK_IMPORTED_MODULE_3__.template.productTableRowInners(products[productIndex]);
+      $tableRow.innerHTML = _template__WEBPACK_IMPORTED_MODULE_0__.template.productTableRowInners(products[productIndex]);
       this.isTableUpdating = !this.isTableUpdating;
     }
   }, {
@@ -470,28 +470,28 @@ var ProductPage = /*#__PURE__*/function () {
       var $tableRow = $target.closest('tr[data-primary-key]');
       if (!$tableRow) return;
       var productIndex = $tableRow.dataset.primaryKey;
-      _Store_ProductStore__WEBPACK_IMPORTED_MODULE_2__["default"].removeProductByIndex(productIndex);
+      _Store_ProductStore__WEBPACK_IMPORTED_MODULE_1__["default"].removeProductByIndex(productIndex);
     }
   }]);
 
-  return ProductPage;
+  return ProductPageView;
 }();
 
 
 
 /***/ }),
 
-/***/ "./src/es/display/template.js":
-/*!************************************!*\
-  !*** ./src/es/display/template.js ***!
-  \************************************/
+/***/ "./src/es/View/template.js":
+/*!*********************************!*\
+  !*** ./src/es/View/template.js ***!
+  \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "template": () => (/* binding */ template)
 /* harmony export */ });
-/* harmony import */ var _Constants_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @Constants/index */ "./src/es/constants/index.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/es/constants/index.ts");
 
 var template = {
   productPage: "\n  <section id=\"add-product-form-section\" class=\"form-section\">\n    <form id=\"add-product-form\">\n        <label form=\"add-product-form\">\uCD94\uAC00\uD560 \uC0C1\uD488 \uC815\uBCF4\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694.</label>\n        <div class=\"add-product-input-wrap\">\n            <input type=\"text\" name=\"name\" placeholder=\"\uC0C1\uD488\uBA85\" form=\"add-product-form\" required>\n            <input type=\"number\" name=\"price\" placeholder=\"\uAC00\uACA9\" form=\"add-product-form\" required>\n            <input type=\"number\" name=\"quantity\" placeholder=\"\uC218\uB7C9\" form=\"add-product-form\" required>\n            <button id=\"add-product-submit-button\" class=\"button accent\">\uCD94\uAC00</button>\n        </div>\n    </form>\n  </section>\n  <section id=\"product-table-section\" class=\"table-section\">\n    <table id=\"product-table\" class=\"table\">\n        <caption>\uC0C1\uD488 \uD604\uD669</caption>\n        <thead>\n            <tr>\n                <th width=\"22%\">\uC0C1\uD488\uBA85</th>\n                <th width=\"22%\">\uAC00\uACA9</th>\n                <th width=\"22%\">\uC218\uB7C9</th>\n                <th width=\"34%\"></th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr>\n            </tr>\n        </tbody>\n    </table>\n  </section>\n  ",
@@ -500,7 +500,7 @@ var template = {
     var name = _ref.name,
         price = _ref.price,
         quantity = _ref.quantity;
-    return "\n    <td>".concat(name, "</td>\n    <td>").concat(price.toLocaleString(), "</td>\n    <td>").concat(quantity, "</td>\n    <td>\n      <div class=\"button-group\">\n        <button class=\"button product-update-button\" type=\"button\">\uC218\uC815</button>\n        <button class=\"button product-delete-button\" type=\"button\">\uC0AD\uC81C</button>\n      </div>\n    </td>\n  ");
+    return "\n    <td>".concat(name, "</td>\n    <td>").concat(price.toLocaleString(), "</td>\n    <td>").concat(quantity, "</td>\n    <td>\n      <div class=\"button-group\">\n        <button class=\"button product-update-button\" name=\"product-update\" type=\"button\">\uC218\uC815</button>\n        <button class=\"button product-delete-button\" name=\"product-delete\" type=\"button\">\uC0AD\uC81C</button>\n      </div>\n    </td>\n  ");
   },
   productTableRows: function productTableRows(products) {
     return products.map(function (_ref2, index) {
@@ -518,11 +518,11 @@ var template = {
     var name = _ref3.name,
         price = _ref3.price,
         quantity = _ref3.quantity;
-    return "\n    <td><input type=\"text\" name=\"name\" placeholder=\"\uC0C1\uD488\uBA85\" value=\"".concat(name, "\"></td>\n    <td><input type=\"number\" name=\"price\" placeholder=\"\uAC00\uACA9\" value=\"").concat(price, "\"></td>\n    <td><input type=\"number\" name=\"quantity\" placeholder=\"\uC218\uB7C9\" value=\"").concat(quantity, "\"></td>\n    <td>\n      <div class=\"button-group\">\n        <button class=\"button product-update-confirm-button\" type=\"button\">\uD655\uC778</button>\n        <button class=\"button product-update-cancel-button\" type=\"button\">\uCDE8\uC18C</button>\n      </div>\n    </td>\n");
+    return "\n    <td><input type=\"text\" name=\"name\" placeholder=\"\uC0C1\uD488\uBA85\" value=\"".concat(name, "\"></td>\n    <td><input type=\"number\" name=\"price\" placeholder=\"\uAC00\uACA9\" value=\"").concat(price, "\"></td>\n    <td><input type=\"number\" name=\"quantity\" placeholder=\"\uC218\uB7C9\" value=\"").concat(quantity, "\"></td>\n    <td>\n      <div class=\"button-group\">\n        <button class=\"button product-update-confirm-button\" name=\"product-update-confirm\" type=\"button\">\uD655\uC778</button>\n        <button class=\"button product-update-cancel-button\" name=\"product-update-cancel\" type=\"button\">\uCDE8\uC18C</button>\n      </div>\n    </td>\n");
   },
   holdingAmountTableRows: function holdingAmountTableRows(coins) {
     return coins.map(function (coin, index) {
-      return "\n      <tr>\n        <td>".concat(_Constants_index__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE[index], "\uC6D0</td>\n        <td>").concat(coin.toLocaleString(), "\uAC1C</td>\n      </tr>");
+      return "\n      <tr>\n        <td>".concat(_constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE[index], "\uC6D0</td>\n        <td>").concat(coin.toLocaleString(), "\uAC1C</td>\n      </tr>");
     }).join('');
   }
 };
@@ -551,8 +551,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Utils_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @Utils/index */ "./src/es/utils/index.ts");
-/* harmony import */ var _Constants_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @Constants/index */ "./src/es/constants/index.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/es/constants/index.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -589,17 +589,17 @@ var HoldingAmountStore = /** @class */ (function () {
         return __assign({}, this.state);
     };
     HoldingAmountStore.prototype.getTotalAmount = function () {
-        return this.state.coins.reduce(function (previous, coin, index) { return (previous += _Constants_index__WEBPACK_IMPORTED_MODULE_1__.COIN_TYPE[index] * coin); }, 0);
+        return this.state.coins.reduce(function (previous, coin, index) { return (previous += _constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE[index] * coin); }, 0);
     };
     HoldingAmountStore.prototype.getMaxCoinIndex = function (baseAmount) {
-        return _Constants_index__WEBPACK_IMPORTED_MODULE_1__.COIN_TYPE.findIndex(function (coin) { return baseAmount >= coin; });
+        return _constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE.findIndex(function (coin) { return baseAmount >= coin; });
     };
     HoldingAmountStore.prototype.getRandomCoinsFromAmount = function (amount) {
         var leftAmount = amount;
         var returnCoins = [0, 0, 0, 0];
         while (leftAmount > 0) {
-            var coinIndex = (0,_Utils_index__WEBPACK_IMPORTED_MODULE_0__.getRandomNumber)(this.getMaxCoinIndex(leftAmount), _Constants_index__WEBPACK_IMPORTED_MODULE_1__.COIN_TYPE.length - 1);
-            var randomCoin = _Constants_index__WEBPACK_IMPORTED_MODULE_1__.COIN_TYPE[coinIndex];
+            var coinIndex = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.getRandomNumber)(this.getMaxCoinIndex(leftAmount), _constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE.length - 1);
+            var randomCoin = _constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE[coinIndex];
             returnCoins[coinIndex] += 1;
             leftAmount -= randomCoin;
         }
@@ -749,54 +749,6 @@ var ERROR_MESSAGE = {
 
 /***/ }),
 
-/***/ "./src/es/utils/VendingMachine/validator.ts":
-/*!**************************************************!*\
-  !*** ./src/es/utils/VendingMachine/validator.ts ***!
-  \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "validateProduct": () => (/* binding */ validateProduct),
-/* harmony export */   "validateHoldingAmountToAdd": () => (/* binding */ validateHoldingAmountToAdd)
-/* harmony export */ });
-/* harmony import */ var _Constants_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @Constants/index */ "./src/es/constants/index.ts");
-/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../index */ "./src/es/utils/index.ts");
-
-
-var validateProduct = function (product) {
-    var name = product.name, price = product.price, quantity = product.quantity;
-    var MIN_PRODUCT_NAME_LENGTH = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MIN_PRODUCT_NAME_LENGTH, MAX_PRODUCT_NAME_LENGTH = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_PRODUCT_NAME_LENGTH, MIN_PRODUCT_PRICE = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MIN_PRODUCT_PRICE, MAX_PRODUCT_PRICE = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_PRODUCT_PRICE, MONEY_UNIT = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MONEY_UNIT, MIN_PRODUCT_QUANTITY = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MIN_PRODUCT_QUANTITY, MAX_PRODUCT_QUANTITY = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_PRODUCT_QUANTITY;
-    if (name === '')
-        throw new Error(_Constants_index__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_NAME_REQUIRED);
-    if (!(0,_index__WEBPACK_IMPORTED_MODULE_1__.isStringLengthInRange)(name, MIN_PRODUCT_NAME_LENGTH, MAX_PRODUCT_NAME_LENGTH))
-        throw new Error(_Constants_index__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_NAME_LENGTH);
-    if (!Number.isInteger(price))
-        throw new Error(_Constants_index__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_PRICE_ONLY_NUMBER);
-    if (!(0,_index__WEBPACK_IMPORTED_MODULE_1__.isNumberInRange)(price, MIN_PRODUCT_PRICE, MAX_PRODUCT_PRICE))
-        throw new Error(_Constants_index__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_PRICE_WRONG_RANGE);
-    if (!(0,_index__WEBPACK_IMPORTED_MODULE_1__.isCorrectNumberUnit)(price, MONEY_UNIT))
-        throw new Error(_Constants_index__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_PRICE_WRONG_UNIT);
-    if (!Number.isInteger(quantity))
-        throw new Error(_Constants_index__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_QUANTITY_ONLY_NUMBER);
-    if (!(0,_index__WEBPACK_IMPORTED_MODULE_1__.isNumberInRange)(quantity, MIN_PRODUCT_QUANTITY, MAX_PRODUCT_QUANTITY))
-        throw new Error(_Constants_index__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_QUANTITY_WRONG_RANGE);
-    return true;
-};
-var validateHoldingAmountToAdd = function (holdingAmountToAdd, totalAmount) {
-    var MAX_HOLDING_AMOUNT = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_HOLDING_AMOUNT, MONEY_UNIT = _Constants_index__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MONEY_UNIT;
-    if (!Number.isInteger(holdingAmountToAdd))
-        throw new Error(_Constants_index__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.HOLDING_AMOUNT_ONLY_NUMBER);
-    if (!(0,_index__WEBPACK_IMPORTED_MODULE_1__.isCorrectNumberUnit)(holdingAmountToAdd, MONEY_UNIT))
-        throw new Error(_Constants_index__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.HOLDING_AMOUNT_WRONG_UNIT);
-    if (holdingAmountToAdd + totalAmount > MAX_HOLDING_AMOUNT)
-        throw new Error(_Constants_index__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.HOLDING_AMOUNT_WRONG_LIMIT);
-    return true;
-};
-
-
-/***/ }),
-
 /***/ "./src/es/utils/index.ts":
 /*!*******************************!*\
   !*** ./src/es/utils/index.ts ***!
@@ -852,6 +804,54 @@ var getInnerInputValues = function ($target) {
 var clearInnerInputValues = function ($target) {
     var $$inputs = Array.from($$('input', $target));
     $$inputs.forEach(function ($input) { return ($input.value = ''); });
+};
+
+
+/***/ }),
+
+/***/ "./src/es/validation.ts":
+/*!******************************!*\
+  !*** ./src/es/validation.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "validateProduct": () => (/* binding */ validateProduct),
+/* harmony export */   "validateHoldingAmountToAdd": () => (/* binding */ validateHoldingAmountToAdd)
+/* harmony export */ });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/es/constants/index.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/es/utils/index.ts");
+
+
+var validateProduct = function (product) {
+    var name = product.name, price = product.price, quantity = product.quantity;
+    var MIN_PRODUCT_NAME_LENGTH = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MIN_PRODUCT_NAME_LENGTH, MAX_PRODUCT_NAME_LENGTH = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_PRODUCT_NAME_LENGTH, MIN_PRODUCT_PRICE = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MIN_PRODUCT_PRICE, MAX_PRODUCT_PRICE = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_PRODUCT_PRICE, MONEY_UNIT = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MONEY_UNIT, MIN_PRODUCT_QUANTITY = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MIN_PRODUCT_QUANTITY, MAX_PRODUCT_QUANTITY = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_PRODUCT_QUANTITY;
+    if (name === '')
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_NAME_REQUIRED);
+    if (!(0,_utils__WEBPACK_IMPORTED_MODULE_1__.isStringLengthInRange)(name, MIN_PRODUCT_NAME_LENGTH, MAX_PRODUCT_NAME_LENGTH))
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_NAME_LENGTH);
+    if (!Number.isInteger(price))
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_PRICE_ONLY_NUMBER);
+    if (!(0,_utils__WEBPACK_IMPORTED_MODULE_1__.isNumberInRange)(price, MIN_PRODUCT_PRICE, MAX_PRODUCT_PRICE))
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_PRICE_WRONG_RANGE);
+    if (!(0,_utils__WEBPACK_IMPORTED_MODULE_1__.isCorrectNumberUnit)(price, MONEY_UNIT))
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_PRICE_WRONG_UNIT);
+    if (!Number.isInteger(quantity))
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_QUANTITY_ONLY_NUMBER);
+    if (!(0,_utils__WEBPACK_IMPORTED_MODULE_1__.isNumberInRange)(quantity, MIN_PRODUCT_QUANTITY, MAX_PRODUCT_QUANTITY))
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_QUANTITY_WRONG_RANGE);
+    return true;
+};
+var validateHoldingAmountToAdd = function (holdingAmountToAdd, totalAmount) {
+    var MAX_HOLDING_AMOUNT = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_HOLDING_AMOUNT, MONEY_UNIT = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MONEY_UNIT;
+    if (!Number.isInteger(holdingAmountToAdd))
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.HOLDING_AMOUNT_ONLY_NUMBER);
+    if (!(0,_utils__WEBPACK_IMPORTED_MODULE_1__.isCorrectNumberUnit)(holdingAmountToAdd, MONEY_UNIT))
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.HOLDING_AMOUNT_WRONG_UNIT);
+    if (holdingAmountToAdd + totalAmount > MAX_HOLDING_AMOUNT)
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.HOLDING_AMOUNT_WRONG_LIMIT);
+    return true;
 };
 
 
@@ -920,17 +920,17 @@ var __webpack_exports__ = {};
   !*** ./src/index.ts ***!
   \**********************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Styles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @Styles */ "./src/styles/index.scss");
-/* harmony import */ var _Display_Router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @Display/Router */ "./src/es/display/Router.js");
-/* harmony import */ var _Display_pages_ProductPage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @Display/pages/ProductPage */ "./src/es/display/pages/ProductPage.js");
-/* harmony import */ var _Display_pages_HoldingAmountPage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @Display/pages/HoldingAmountPage */ "./src/es/display/pages/HoldingAmountPage.js");
+/* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles */ "./src/styles/index.scss");
+/* harmony import */ var _es_View_ProductPageView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./es/View/ProductPageView */ "./src/es/View/ProductPageView.js");
+/* harmony import */ var _es_View_HoldingAmountPageView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./es/View/HoldingAmountPageView */ "./src/es/View/HoldingAmountPageView.js");
+/* harmony import */ var _es_Router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./es/Router */ "./src/es/Router.js");
 
 
 
 
-new _Display_Router__WEBPACK_IMPORTED_MODULE_1__["default"]({
-    product: new _Display_pages_ProductPage__WEBPACK_IMPORTED_MODULE_2__["default"](),
-    holding_amount: new _Display_pages_HoldingAmountPage__WEBPACK_IMPORTED_MODULE_3__["default"]()
+new _es_Router__WEBPACK_IMPORTED_MODULE_3__["default"]({
+    product: new _es_View_ProductPageView__WEBPACK_IMPORTED_MODULE_1__["default"](),
+    holding_amount: new _es_View_HoldingAmountPageView__WEBPACK_IMPORTED_MODULE_2__["default"]()
 });
 
 })();
