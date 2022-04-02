@@ -58,15 +58,18 @@ var Router = /*#__PURE__*/function () {
   }, {
     key: "pushState",
     value: function pushState(searchUrl) {
+      console.log('pathname: ', this.pathname);
       window.history.pushState((0,_utils__WEBPACK_IMPORTED_MODULE_0__.getSearchParamsObject)(searchUrl), '', this.pathname + searchUrl);
       this.pageRender(searchUrl);
     }
   }, {
     key: "pageRender",
     value: function pageRender(searchUrl) {
+      console.log(window.location.href, 'path: ', window.location.pathname, 'search: ', window.location.search);
+
       var _getSearchParamsObjec = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getSearchParamsObject)(searchUrl),
           _getSearchParamsObjec2 = _getSearchParamsObjec.page,
-          page = _getSearchParamsObjec2 === void 0 ? 'product' : _getSearchParamsObjec2;
+          page = _getSearchParamsObjec2 === void 0 ? 'productPurchase' : _getSearchParamsObjec2;
 
       this.pageHeader.render({
         currentPage: page
@@ -108,20 +111,107 @@ var HeaderView = /*#__PURE__*/function () {
     _classCallCheck(this, HeaderView);
 
     _defineProperty(this, "$container", (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('header'));
+
+    _defineProperty(this, "$title", (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('.title', this.$container));
+
+    _defineProperty(this, "$goMainButton", (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('#go-main-button', this.$container));
+
+    _defineProperty(this, "$loginButton", (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('#login-button', this.$container));
+
+    _defineProperty(this, "$nav", (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('.nav', this.$container));
   }
 
   _createClass(HeaderView, [{
     key: "render",
     value: function render(state) {
-      this.drawNavigationMenu(state);
+      this.updateTitle(state);
+      this.updateMenuButton(state);
     }
   }, {
-    key: "drawNavigationMenu",
-    value: function drawNavigationMenu(_ref) {
+    key: "updateTitle",
+    value: function updateTitle(_ref) {
       var currentPage = _ref.currentPage;
-      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('.nav .selected').classList.remove('selected');
-      var selectedMenu = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)(".nav-menu[data-route*=\"".concat(currentPage, "\"]"));
-      selectedMenu.classList.add('selected');
+
+      switch (currentPage) {
+        case 'login':
+          this.$title.innerText = '로그인';
+          break;
+
+        case 'signUp':
+          this.$title.innerText = '회원가입';
+          break;
+
+        default:
+          this.$title.innerText = '🍿 자판기 🍿';
+      }
+    }
+  }, {
+    key: "updateMenuButton",
+    value: function updateMenuButton(_ref2) {
+      var currentPage = _ref2.currentPage;
+
+      switch (currentPage) {
+        case 'login':
+        case 'signUp':
+          this.hideLoginButton();
+          this.showGoMainButton();
+          this.hideNavigationMenu();
+          break;
+
+        default:
+          this.showLoginButton();
+          this.hideGoMainButton();
+          this.showNavigationMenu();
+          this.updateNavigationSelectedMenu(currentPage);
+      }
+    }
+  }, {
+    key: "showGoMainButton",
+    value: function showGoMainButton() {
+      if (this.$goMainButton.classList.contains('hidden')) {
+        this.$goMainButton.classList.remove('hidden');
+      }
+    }
+  }, {
+    key: "hideGoMainButton",
+    value: function hideGoMainButton() {
+      if (!this.$goMainButton.classList.contains('hidden')) {
+        this.$goMainButton.classList.add('hidden');
+      }
+    }
+  }, {
+    key: "showLoginButton",
+    value: function showLoginButton() {
+      if (this.$loginButton.classList.contains('hidden')) {
+        this.$loginButton.classList.remove('hidden');
+      }
+    }
+  }, {
+    key: "hideLoginButton",
+    value: function hideLoginButton() {
+      if (!this.$loginButton.classList.contains('hidden')) {
+        this.$loginButton.classList.add('hidden');
+      }
+    }
+  }, {
+    key: "showNavigationMenu",
+    value: function showNavigationMenu() {
+      if (this.$nav.classList.contains('hidden')) {
+        this.$nav.classList.remove('hidden');
+      }
+    }
+  }, {
+    key: "hideNavigationMenu",
+    value: function hideNavigationMenu() {
+      if (!this.$nav.classList.contains('hidden')) {
+        this.$nav.classList.add('hidden');
+      }
+    }
+  }, {
+    key: "updateNavigationSelectedMenu",
+    value: function updateNavigationSelectedMenu(currentPage) {
+      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('.selected', this.$nav).classList.remove('selected');
+      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)(".nav-menu[data-route*=\"".concat(currentPage, "\"]")).classList.add('selected');
     }
   }]);
 
@@ -132,150 +222,53 @@ var HeaderView = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/es/View/HoldingAmountPageView.js":
-/*!**********************************************!*\
-  !*** ./src/es/View/HoldingAmountPageView.js ***!
-  \**********************************************/
+/***/ "./src/es/View/LoginPageView.js":
+/*!**************************************!*\
+  !*** ./src/es/View/LoginPageView.js ***!
+  \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ HoldingAmountPageView)
+/* harmony export */   "default": () => (/* binding */ LoginPageView)
 /* harmony export */ });
-/* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template */ "./src/es/View/template.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
-/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../validation */ "./src/es/validation.ts");
-/* harmony import */ var _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Store/HoldingAmountStore */ "./src/es/Store/HoldingAmountStore.ts");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
+var pageTemplate = "\n  <section class=\"user-information-form-section\">\n      <form id=\"login-form\" >\n          <label>\uC774\uBA54\uC77C<br>\n              <input type=\"email\" placeholder=\"\uC774\uBA54\uC77C \uC8FC\uC18C\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <label>\uBE44\uBC00\uBC88\uD638<br>\n              <input type=\"password\" placeholder=\"\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <button class=\"button accent\">\uD655\uC778</button>\n      </form>\n      <label>\uC544\uC9C1 \uD68C\uC6D0\uC774 \uC544\uB2C8\uC2E0\uAC00\uC694?<button class=\"text-button\" data-route=\"?page=signUp\">\uD68C\uC6D0\uAC00\uC785</button></label>\n  </section>\n";
 
+var LoginPageView = /*#__PURE__*/_createClass(function LoginPageView() {
+  _classCallCheck(this, LoginPageView);
 
-
-
-var HoldingAmountPageView = /*#__PURE__*/function () {
-  function HoldingAmountPageView() {
-    var _this = this;
-
-    _classCallCheck(this, HoldingAmountPageView);
-
-    _defineProperty(this, "renderMethodList", void 0);
-
-    _defineProperty(this, "$addFormSection", void 0);
-
-    _defineProperty(this, "$addForm", void 0);
-
-    _defineProperty(this, "$tableSection", void 0);
-
-    _defineProperty(this, "$table", void 0);
-
-    _defineProperty(this, "loadPage", function () {
-      (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('main').innerHTML = _template__WEBPACK_IMPORTED_MODULE_0__.template.holdingAmountPage;
-
-      _this.setDom();
-
-      _this.render({
-        state: _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_3__["default"].getState(),
-        changeStates: Object.keys(_this.renderMethodList)
-      });
-
-      _this.setEvents();
-    });
-
-    _defineProperty(this, "render", function (_ref) {
-      var state = _ref.state,
-          changeStates = _ref.changeStates;
-      var renderMethods = changeStates.reduce(function (previous, stateKey) {
-        _this.renderMethodList[stateKey].forEach(function (renderMethod) {
-          return previous.add(renderMethod);
-        });
-
-        return previous;
-      }, new Set());
-      renderMethods.forEach(function (renderMethod) {
-        return renderMethod(state);
-      });
-    });
-
-    _defineProperty(this, "drawTotalHoldingAmount", function () {
-      var totalAmount = _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_3__["default"].getTotalAmount();
-      (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('#total-holding-amount', _this.$addFormSection).innerText = "".concat(totalAmount.toLocaleString(), "\uC6D0");
-    });
-
-    _defineProperty(this, "drawHoldingAmountList", function (_ref2) {
-      var coins = _ref2.coins;
-      (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('tbody', _this.$table).innerHTML = _template__WEBPACK_IMPORTED_MODULE_0__.template.holdingAmountTableRows(coins);
-    });
-
-    _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_3__["default"].addSubscriber(this.render);
-    this.setRenderMethodList();
-  }
-
-  _createClass(HoldingAmountPageView, [{
-    key: "setDom",
-    value: function setDom() {
-      this.$addFormSection = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('#add-holding-amount-form-section');
-      this.$addForm = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('#add-holding-amount-form', this.$addFormSection);
-      this.$tableSection = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('#holding-amount-table-section');
-      this.$table = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('#holding-amount-table', this.$tableSection);
-    }
-  }, {
-    key: "setRenderMethodList",
-    value: function setRenderMethodList() {
-      this.renderMethodList = {
-        coins: [this.drawTotalHoldingAmount, this.drawHoldingAmountList]
-      };
-    }
-  }, {
-    key: "setEvents",
-    value: function setEvents() {
-      this.$addForm.addEventListener('submit', this.onSubmitAddHoldingAmountForm);
-    }
-  }, {
-    key: "onSubmitAddHoldingAmountForm",
-    value: function onSubmitAddHoldingAmountForm(event) {
-      event.preventDefault();
-      var $input = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('input[name="add-holding-amount"]', event.target);
-      var totalAmount = _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_3__["default"].getTotalAmount();
-
-      try {
-        (0,_validation__WEBPACK_IMPORTED_MODULE_2__.validateHoldingAmountToAdd)(Number($input.value), totalAmount);
-      } catch (error) {
-        alert(error.message);
-        return;
-      }
-
-      _Store_HoldingAmountStore__WEBPACK_IMPORTED_MODULE_3__["default"].addAmount($input.value);
-      $input.value = '';
-    }
-  }]);
-
-  return HoldingAmountPageView;
-}();
+  _defineProperty(this, "loadPage", function () {
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('.main').innerHTML = pageTemplate;
+  });
+});
 
 
 
 /***/ }),
 
-/***/ "./src/es/View/ProductPageView.js":
-/*!****************************************!*\
-  !*** ./src/es/View/ProductPageView.js ***!
-  \****************************************/
+/***/ "./src/es/View/ProductManagementPageView.js":
+/*!**************************************************!*\
+  !*** ./src/es/View/ProductManagementPageView.js ***!
+  \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ ProductPageView)
+/* harmony export */   "default": () => (/* binding */ ProductManagementPageView)
 /* harmony export */ });
 /* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template */ "./src/es/View/template.js");
 /* harmony import */ var _Store_ProductStore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Store/ProductStore */ "./src/es/Store/ProductStore.ts");
-/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../validation */ "./src/es/validation.ts");
+/* harmony import */ var _validator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../validator */ "./src/es/validator.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -290,11 +283,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var ProductPageView = /*#__PURE__*/function () {
-  function ProductPageView() {
+var ProductManagementPageView = /*#__PURE__*/function () {
+  function ProductManagementPageView() {
     var _this = this;
 
-    _classCallCheck(this, ProductPageView);
+    _classCallCheck(this, ProductManagementPageView);
 
     _defineProperty(this, "renderMethodList", void 0);
 
@@ -309,7 +302,7 @@ var ProductPageView = /*#__PURE__*/function () {
     _defineProperty(this, "isTableUpdating", void 0);
 
     _defineProperty(this, "loadPage", function () {
-      (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('main').innerHTML = _template__WEBPACK_IMPORTED_MODULE_0__.template.productPage;
+      (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('main').innerHTML = _template__WEBPACK_IMPORTED_MODULE_0__.template.productManagementPage;
 
       _this.setDom();
 
@@ -341,7 +334,7 @@ var ProductPageView = /*#__PURE__*/function () {
       var product = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.getInnerInputValues)(event.target);
 
       try {
-        (0,_validation__WEBPACK_IMPORTED_MODULE_2__.validateProduct)(product);
+        (0,_validator__WEBPACK_IMPORTED_MODULE_2__.validateProduct)(product);
       } catch (error) {
         alert(error.message);
         return;
@@ -388,7 +381,7 @@ var ProductPageView = /*#__PURE__*/function () {
     this.isTableUpdating = false;
   }
 
-  _createClass(ProductPageView, [{
+  _createClass(ProductManagementPageView, [{
     key: "setDom",
     value: function setDom() {
       this.$addFormSection = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('#add-product-form-section');
@@ -420,7 +413,7 @@ var ProductPageView = /*#__PURE__*/function () {
       }
 
       this.isTableUpdating = !this.isTableUpdating;
-      var $tableRow = $target.closest('tr[data-primary-key]');
+      var $tableRow = $target.closest('tr');
       if (!$tableRow) return;
       var productIndex = $tableRow.dataset.primaryKey;
 
@@ -433,13 +426,13 @@ var ProductPageView = /*#__PURE__*/function () {
     key: "onClickUpdateConfirmButton",
     value: function onClickUpdateConfirmButton(_ref4) {
       var $target = _ref4.target;
-      var $tableRow = $target.closest('tr[data-primary-key]');
+      var $tableRow = $target.closest('tr');
       if (!$tableRow) return;
       var productIndex = $tableRow.dataset.primaryKey;
       var product = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.getInnerInputValues)($tableRow);
 
       try {
-        (0,_validation__WEBPACK_IMPORTED_MODULE_2__.validateProduct)(product);
+        (0,_validator__WEBPACK_IMPORTED_MODULE_2__.validateProduct)(product);
       } catch (error) {
         alert(error.message);
         return;
@@ -452,7 +445,7 @@ var ProductPageView = /*#__PURE__*/function () {
     key: "onClickUpdateCancelButton",
     value: function onClickUpdateCancelButton(_ref5) {
       var $target = _ref5.target;
-      var $tableRow = $target.closest('tr[data-primary-key]');
+      var $tableRow = $target.closest('tr');
       if (!$tableRow) return;
       var productIndex = $tableRow.dataset.primaryKey;
 
@@ -467,14 +460,374 @@ var ProductPageView = /*#__PURE__*/function () {
     value: function onClickDeleteButton(_ref6) {
       var $target = _ref6.target;
       if (!confirm('정말 해당 상품을 삭제하시겠습니까?')) return;
-      var $tableRow = $target.closest('tr[data-primary-key]');
+      var $tableRow = $target.closest('tr');
       if (!$tableRow) return;
       var productIndex = $tableRow.dataset.primaryKey;
       _Store_ProductStore__WEBPACK_IMPORTED_MODULE_1__["default"].removeProductByIndex(productIndex);
     }
   }]);
 
-  return ProductPageView;
+  return ProductManagementPageView;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/es/View/ProductPurchasePageView.js":
+/*!************************************************!*\
+  !*** ./src/es/View/ProductPurchasePageView.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ProductPurchasePageView)
+/* harmony export */ });
+/* harmony import */ var _Store_ProductStore__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Store/ProductStore */ "./src/es/Store/ProductStore.ts");
+/* harmony import */ var _Store_VendingMachineChargeStore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Store/VendingMachineChargeStore */ "./src/es/Store/VendingMachineChargeStore.ts");
+/* harmony import */ var _Store_CustomerChargeStore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Store/CustomerChargeStore */ "./src/es/Store/CustomerChargeStore.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
+/* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./template */ "./src/es/View/template.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../constants */ "./src/es/constants/index.ts");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+
+
+var ProductPurchasePageView = /*#__PURE__*/function () {
+  function ProductPurchasePageView() {
+    var _this = this;
+
+    _classCallCheck(this, ProductPurchasePageView);
+
+    _defineProperty(this, "renderMethodList", void 0);
+
+    _defineProperty(this, "$customerChargeForm", void 0);
+
+    _defineProperty(this, "$productTableSection", void 0);
+
+    _defineProperty(this, "$productTable", void 0);
+
+    _defineProperty(this, "loadPage", function () {
+      (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('main').innerHTML = _template__WEBPACK_IMPORTED_MODULE_4__.template.productPurchasePage;
+
+      _this.setDom();
+
+      _this.render({
+        state: _objectSpread(_objectSpread({}, _Store_ProductStore__WEBPACK_IMPORTED_MODULE_0__["default"].getState()), _Store_CustomerChargeStore__WEBPACK_IMPORTED_MODULE_2__["default"].getState()),
+        changeStates: Object.keys(_this.renderMethodList)
+      });
+
+      _this.setEvents();
+    });
+
+    _defineProperty(this, "onSubmitCustomerChargeForm", function (event) {
+      event.preventDefault();
+
+      var _getInnerInputValues = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.getInnerInputValues)(event.target),
+          customerCharge = _getInnerInputValues.customerCharge;
+
+      _Store_CustomerChargeStore__WEBPACK_IMPORTED_MODULE_2__["default"].addCharge(customerCharge);
+      (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('input', event.target).value = '';
+    });
+
+    _defineProperty(this, "onClickTableInnerButton", function (event) {
+      if (event.target.type !== 'button') return;
+
+      if (event.target.name === 'product-purchase') {
+        _this.onClickPurchaseButton(event);
+      }
+    });
+
+    _defineProperty(this, "onClickPurchaseButton", function (event) {
+      var $tableRow = event.target.closest('tr');
+      if (!$tableRow) return;
+      var productIndex = $tableRow.dataset.primaryKey;
+      var price = _Store_ProductStore__WEBPACK_IMPORTED_MODULE_0__["default"].getState().products[productIndex].price;
+
+      if (price > _Store_CustomerChargeStore__WEBPACK_IMPORTED_MODULE_2__["default"].getState().customerCharge) {
+        alert('Too expensive, put more money! 😥');
+        return;
+      }
+
+      _Store_CustomerChargeStore__WEBPACK_IMPORTED_MODULE_2__["default"].subtractCharge(price);
+      _Store_ProductStore__WEBPACK_IMPORTED_MODULE_0__["default"].takeOutProductByIndex(productIndex);
+    });
+
+    _defineProperty(this, "onClickReturnChangeButton", function (event) {
+      var _VendingMachineCharge = _Store_VendingMachineChargeStore__WEBPACK_IMPORTED_MODULE_1__["default"].getState(),
+          vendingMachineCoins = _VendingMachineCharge.coins;
+
+      var _CustomerChargeStore$ = _Store_CustomerChargeStore__WEBPACK_IMPORTED_MODULE_2__["default"].getState(),
+          customerCharge = _CustomerChargeStore$.customerCharge;
+
+      if (_Store_VendingMachineChargeStore__WEBPACK_IMPORTED_MODULE_1__["default"].getTotalAmount() <= customerCharge) {
+        _Store_CustomerChargeStore__WEBPACK_IMPORTED_MODULE_2__["default"].subtractCharge(customerCharge);
+        _Store_VendingMachineChargeStore__WEBPACK_IMPORTED_MODULE_1__["default"].subtractCoins(vendingMachineCoins);
+
+        _this.updateChangeTable({
+          ReturnedCoins: vendingMachineCoins
+        });
+
+        return;
+      }
+
+      var coinsToBeReturned = [0, 0, 0, 0];
+      var leftCharge = customerCharge;
+      _constants__WEBPACK_IMPORTED_MODULE_5__.COIN_TYPE.forEach(function (coin, index) {
+        var maxQuantity = Math.floor(leftCharge / coin);
+        var returnQuantity = maxQuantity > vendingMachineCoins[index] ? vendingMachineCoins[index] : maxQuantity;
+        coinsToBeReturned[index] = returnQuantity;
+        leftCharge -= returnQuantity * coin;
+      });
+      _Store_CustomerChargeStore__WEBPACK_IMPORTED_MODULE_2__["default"].subtractCharge(customerCharge - leftCharge);
+      _Store_VendingMachineChargeStore__WEBPACK_IMPORTED_MODULE_1__["default"].subtractCoins(coinsToBeReturned);
+
+      _this.updateChangeTable({
+        ReturnedCoins: coinsToBeReturned
+      });
+    });
+
+    _defineProperty(this, "render", function (_ref) {
+      var state = _ref.state,
+          changeStates = _ref.changeStates;
+      var renderMethods = changeStates.reduce(function (previous, stateKey) {
+        _this.renderMethodList[stateKey].forEach(function (renderMethod) {
+          return previous.add(renderMethod);
+        });
+
+        return previous;
+      }, new Set());
+      renderMethods.forEach(function (renderMethod) {
+        return renderMethod(state);
+      });
+    });
+
+    _defineProperty(this, "updateTotalCustomerCharge", function (_ref2) {
+      var customerCharge = _ref2.customerCharge;
+      (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('#total-customer-charge').innerText = "".concat(customerCharge, "\uC6D0");
+    });
+
+    _defineProperty(this, "updateProductList", function (_ref3) {
+      var products = _ref3.products;
+      var productItem = _template__WEBPACK_IMPORTED_MODULE_4__.template.productPurchaseTableRows(products);
+      (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('tbody', _this.$productTable).innerHTML = productItem;
+    });
+
+    _defineProperty(this, "updateChangeTable", function (_ref4) {
+      var ReturnedCoins = _ref4.ReturnedCoins;
+      (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('tbody', _this.$changeTable).innerHTML = _template__WEBPACK_IMPORTED_MODULE_4__.template.coinTableRows(ReturnedCoins);
+    });
+
+    _Store_ProductStore__WEBPACK_IMPORTED_MODULE_0__["default"].addSubscriber(this.render);
+    _Store_CustomerChargeStore__WEBPACK_IMPORTED_MODULE_2__["default"].addSubscriber(this.render);
+    this.setRenderMethodList();
+  }
+
+  _createClass(ProductPurchasePageView, [{
+    key: "setDom",
+    value: function setDom() {
+      this.$customerChargeForm = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('#customer-charge-form');
+      this.$productTableSection = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('#product-table-section');
+      this.$productTable = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('#product-table', this.$productTableSection);
+      this.$changeTableSection = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('#change-table-section');
+      this.$changeTable = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('#change-table', this.$changeTableSection);
+      this.$returnChangeButton = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('#return-change-button', this.$changeTableSection);
+    }
+  }, {
+    key: "setRenderMethodList",
+    value: function setRenderMethodList() {
+      this.renderMethodList = {
+        products: [this.updateProductList],
+        customerCharge: [this.updateTotalCustomerCharge]
+      };
+    }
+  }, {
+    key: "setEvents",
+    value: function setEvents() {
+      this.$customerChargeForm.addEventListener('submit', this.onSubmitCustomerChargeForm);
+      this.$productTable.addEventListener('click', this.onClickTableInnerButton);
+      this.$returnChangeButton.addEventListener('click', this.onClickReturnChangeButton);
+    }
+  }]);
+
+  return ProductPurchasePageView;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/es/View/SignUpPageView.js":
+/*!***************************************!*\
+  !*** ./src/es/View/SignUpPageView.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ SignUpPageView)
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var pageTemplate = "\n  <section class=\"user-information-form-section\">\n      <form id=\"signup-form\" >\n          <label>\uC774\uBA54\uC77C<br>\n              <input type=\"email\" placeholder=\"\uC774\uBA54\uC77C \uC8FC\uC18C\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <label>\uC774\uB984<br>\n              <input type=\"text\" placeholder=\"\uC774\uB984\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <label>\uBE44\uBC00\uBC88\uD638<br>\n              <input type=\"password\" placeholder=\"\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <label>\uBE44\uBC00\uBC88\uD638 \uD655\uC778<br>\n              <input type=\"password\" placeholder=\"\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <button class=\"button accent\">\uD655\uC778</button>\n      </form>\n  </section>\n";
+
+var SignUpPageView = /*#__PURE__*/_createClass(function SignUpPageView() {
+  _classCallCheck(this, SignUpPageView);
+
+  _defineProperty(this, "loadPage", function () {
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('.main').innerHTML = pageTemplate;
+  });
+});
+
+
+
+/***/ }),
+
+/***/ "./src/es/View/VendingMachineChargeManagementPageView.js":
+/*!***************************************************************!*\
+  !*** ./src/es/View/VendingMachineChargeManagementPageView.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ VendingMachineChargeManagementPageView)
+/* harmony export */ });
+/* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template */ "./src/es/View/template.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
+/* harmony import */ var _validator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../validator */ "./src/es/validator.ts");
+/* harmony import */ var _Store_VendingMachineChargeStore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Store/VendingMachineChargeStore */ "./src/es/Store/VendingMachineChargeStore.ts");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+var VendingMachineChargeManagementPageView = /*#__PURE__*/function () {
+  function VendingMachineChargeManagementPageView() {
+    var _this = this;
+
+    _classCallCheck(this, VendingMachineChargeManagementPageView);
+
+    _defineProperty(this, "renderMethodList", void 0);
+
+    _defineProperty(this, "$vendingMachineChargeForm", void 0);
+
+    _defineProperty(this, "$vendingMachineChargeCoinTable", void 0);
+
+    _defineProperty(this, "loadPage", function () {
+      (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('main').innerHTML = _template__WEBPACK_IMPORTED_MODULE_0__.template.vendingMachineChargeManagementPage;
+
+      _this.setDom();
+
+      _this.render({
+        state: _Store_VendingMachineChargeStore__WEBPACK_IMPORTED_MODULE_3__["default"].getState(),
+        changeStates: Object.keys(_this.renderMethodList)
+      });
+
+      _this.setEvents();
+    });
+
+    _defineProperty(this, "render", function (_ref) {
+      var state = _ref.state,
+          changeStates = _ref.changeStates;
+      var renderMethods = changeStates.reduce(function (previous, stateKey) {
+        _this.renderMethodList[stateKey].forEach(function (renderMethod) {
+          return previous.add(renderMethod);
+        });
+
+        return previous;
+      }, new Set());
+      renderMethods.forEach(function (renderMethod) {
+        return renderMethod(state);
+      });
+    });
+
+    _defineProperty(this, "updateTotalVendingMachineCharge", function () {
+      var totalAmount = _Store_VendingMachineChargeStore__WEBPACK_IMPORTED_MODULE_3__["default"].getTotalAmount();
+      _this.$totalVendingMachineCharge.innerText = "".concat(totalAmount.toLocaleString(), "\uC6D0");
+    });
+
+    _defineProperty(this, "updateVendingMachineChargeCoinTable", function (_ref2) {
+      var coins = _ref2.coins;
+      (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('tbody', _this.$vendingMachineChargeTable).innerHTML = _template__WEBPACK_IMPORTED_MODULE_0__.template.coinTableRows(coins);
+    });
+
+    _Store_VendingMachineChargeStore__WEBPACK_IMPORTED_MODULE_3__["default"].addSubscriber(this.render);
+    this.setRenderMethodList();
+  }
+
+  _createClass(VendingMachineChargeManagementPageView, [{
+    key: "setDom",
+    value: function setDom() {
+      this.$vendingMachineChargeForm = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('#vendingmachine-charge-form');
+      this.$vendingMachineChargeCoinTable = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('#holding-amount-table');
+      this.$vendingMachineChargeTable = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('#vendingmachine-charge-table');
+      this.$totalVendingMachineCharge = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('#total-vendingmachine-charge');
+    }
+  }, {
+    key: "setRenderMethodList",
+    value: function setRenderMethodList() {
+      this.renderMethodList = {
+        coins: [this.updateTotalVendingMachineCharge, this.updateVendingMachineChargeCoinTable]
+      };
+    }
+  }, {
+    key: "setEvents",
+    value: function setEvents() {
+      this.$vendingMachineChargeForm.addEventListener('submit', this.onSubmitVendingMachineChargeForm);
+    }
+  }, {
+    key: "onSubmitVendingMachineChargeForm",
+    value: function onSubmitVendingMachineChargeForm(event) {
+      event.preventDefault();
+      var $vendingMachineChargeInput = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('input', event.target);
+      var totalAmount = _Store_VendingMachineChargeStore__WEBPACK_IMPORTED_MODULE_3__["default"].getTotalAmount();
+
+      try {
+        (0,_validator__WEBPACK_IMPORTED_MODULE_2__.validateHoldingAmountToAdd)(Number($vendingMachineChargeInput.value), totalAmount);
+      } catch (error) {
+        alert(error.message);
+        return;
+      }
+
+      _Store_VendingMachineChargeStore__WEBPACK_IMPORTED_MODULE_3__["default"].addCharge($vendingMachineChargeInput.value);
+      $vendingMachineChargeInput.value = '';
+    }
+  }]);
+
+  return VendingMachineChargeManagementPageView;
 }();
 
 
@@ -494,8 +847,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/es/constants/index.ts");
 
 var template = {
-  productPage: "\n  <section id=\"add-product-form-section\" class=\"form-section\">\n    <form id=\"add-product-form\">\n        <label form=\"add-product-form\">\uCD94\uAC00\uD560 \uC0C1\uD488 \uC815\uBCF4\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694.</label>\n        <div class=\"add-product-input-wrap\">\n            <input type=\"text\" name=\"name\" placeholder=\"\uC0C1\uD488\uBA85\" form=\"add-product-form\" required>\n            <input type=\"number\" name=\"price\" placeholder=\"\uAC00\uACA9\" form=\"add-product-form\" required>\n            <input type=\"number\" name=\"quantity\" placeholder=\"\uC218\uB7C9\" form=\"add-product-form\" required>\n            <button id=\"add-product-submit-button\" class=\"button accent\">\uCD94\uAC00</button>\n        </div>\n    </form>\n  </section>\n  <section id=\"product-table-section\" class=\"table-section\">\n    <table id=\"product-table\" class=\"table\">\n        <caption>\uC0C1\uD488 \uD604\uD669</caption>\n        <thead>\n            <tr>\n                <th width=\"22%\">\uC0C1\uD488\uBA85</th>\n                <th width=\"22%\">\uAC00\uACA9</th>\n                <th width=\"22%\">\uC218\uB7C9</th>\n                <th width=\"34%\"></th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr>\n            </tr>\n        </tbody>\n    </table>\n  </section>\n  ",
-  holdingAmountPage: "\n  <section id=\"add-holding-amount-form-section\" class=\"form-section\">\n    <form id=\"add-holding-amount-form\">\n        <label form=\"add-holding-amount-form\">\uC790\uD310\uAE30\uAC00 \uBCF4\uC720\uD560 \uAE08\uC561\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694</label>\n        <div class=\"add-holding-amount-wrap\">\n            <input type=\"number\" name=\"add-holding-amount\" placeholder=\"\uAE08\uC561\" form=\"add-holding-amount-form\" required>\n            <button id=\"add-holding-amount-submit-button\" class=\"button accent\">\uCD94\uAC00</button>\n        </div>\n    </form>\n    <p class=\"holding-amount\">\uD604\uC7AC \uBCF4\uC720 \uAE08\uC561: <span id=\"total-holding-amount\">0\uC6D0</span></p>\n  </section>\n  <section id=\"holding-amount-table-section\" class=\"table-section\">\n    <table id=\"holding-amount-table\" class=\"table\">\n        <caption>\uC790\uD310\uAE30\uAC00 \uBCF4\uC720\uD55C \uB3D9\uC804</caption>\n        <thead>\n            <tr><th>\uB3D9\uC804</th><th>\uAC1C\uC218</th></tr>\n        </thead>\n        <tbody>\n            <tr><td>500\uC6D0</td><td>0\uAC1C</td></tr>\n            <tr><td>100\uC6D0</td><td>0\uAC1C</td></tr>\n            <tr><td>50\uC6D0</td><td>0\uAC1C</td></tr>\n            <tr><td>10\uC6D0</td><td>0\uAC1C</td></tr>\n        </tbody>\n    </table>\n  </section>\n  ",
+  productManagementPage: "\n  <section id=\"add-product-form-section\" class=\"form-section\">\n    <form id=\"add-product-form\">\n        <label form=\"add-product-form\">\uCD94\uAC00\uD560 \uC0C1\uD488 \uC815\uBCF4\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694.</label>\n        <div class=\"add-product-input-wrap\">\n            <input type=\"text\" name=\"name\" placeholder=\"\uC0C1\uD488\uBA85\" form=\"add-product-form\" required>\n            <input type=\"number\" name=\"price\" placeholder=\"\uAC00\uACA9\" form=\"add-product-form\" required>\n            <input type=\"number\" name=\"quantity\" placeholder=\"\uC218\uB7C9\" form=\"add-product-form\" required>\n            <button id=\"add-product-submit-button\" class=\"button accent\">\uCD94\uAC00</button>\n        </div>\n    </form>\n  </section>\n  <section id=\"product-table-section\" class=\"table-section\">\n    <table id=\"product-table\" class=\"table\">\n        <caption>\uC0C1\uD488 \uD604\uD669</caption>\n        <thead>\n            <tr>\n                <th width=\"22%\">\uC0C1\uD488\uBA85</th>\n                <th width=\"22%\">\uAC00\uACA9</th>\n                <th width=\"22%\">\uC218\uB7C9</th>\n                <th width=\"34%\"></th>\n            </tr>\n        </thead>\n        <tbody>\n        </tbody>\n    </table>\n  </section>\n  ",
+  vendingMachineChargeManagementPage: "\n  <section id=\"vendingmachine-charge-form-section\" class=\"form-section\">\n    <form id=\"vendingmachine-charge-form\">\n        <label form=\"vendingmachine-charge-form\">\uC790\uD310\uAE30\uAC00 \uBCF4\uC720\uD560 \uAE08\uC561\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694</label>\n        <div class=\"vendingmachine-charge-wrap\">\n            <input type=\"number\" name=\"vendingmachine-charge\" placeholder=\"\uAE08\uC561\" form=\"vendingmachine-charge-form\" required>\n            <button id=\"vendingmachine-charge-submit-button\" class=\"button accent\">\uCD94\uAC00</button>\n        </div>\n    </form>\n    <p>\uD604\uC7AC \uBCF4\uC720 \uAE08\uC561: <span id=\"total-vendingmachine-charge\">0\uC6D0</span></p>\n  </section>\n  <section id=\"vendingmachine-charge-table-section\" class=\"table-section\">\n    <table id=\"vendingmachine-charge-table\" class=\"table\">\n        <caption>\uC790\uD310\uAE30\uAC00 \uBCF4\uC720\uD55C \uB3D9\uC804</caption>\n        <thead>\n            <tr><th>\uB3D9\uC804</th><th>\uAC1C\uC218</th></tr>\n        </thead>\n        <tbody>\n            <tr><td>500\uC6D0</td><td>0\uAC1C</td></tr>\n            <tr><td>100\uC6D0</td><td>0\uAC1C</td></tr>\n            <tr><td>50\uC6D0</td><td>0\uAC1C</td></tr>\n            <tr><td>10\uC6D0</td><td>0\uAC1C</td></tr>\n        </tbody>\n    </table>\n  </section>\n  ",
+  productPurchasePage: "\n  <section id=\"customer-charge-form-section\" class=\"form-section\">\n    <form id=\"customer-charge-form\">\n        <label form=\"customer-charge-form\">\uC0C1\uD488\uC744 \uAD6C\uB9E4\uD560 \uAE08\uC561\uC744 \uD22C\uC785\uD574\uC8FC\uC138\uC694</label>\n        <div class=\"customer-charge-wrap\">\n            <input type=\"number\" name=\"customerCharge\" placeholder=\"\uAE08\uC561\" form=\"customer-charge-form\" required>\n            <button id=\"customer-charge-submit-button\" class=\"button accent\">\uD22C\uC785</button>\n        </div>\n    </form>\n    <p>\uD22C\uC785\uD55C \uAE08\uC561: <span id=\"total-customer-charge\">0\uC6D0</span></p>\n  </section>\n  <section id=\"product-table-section\" class=\"table-section\">\n  <table id=\"product-table\" class=\"table\">\n      <caption>\uAD6C\uB9E4 \uAC00\uB2A5 \uC0C1\uD488 \uD604\uD669</caption>\n      <thead>\n          <tr>\n              <th width=\"25%\">\uC0C1\uD488\uBA85</th>\n              <th width=\"25%\">\uAC00\uACA9</th>\n              <th width=\"25%\">\uC218\uB7C9</th>\n              <th width=\"35%\">\uAD6C\uB9E4</th>\n          </tr>\n      </thead>\n      <tbody></tbody>\n  </table>\n  </section>\n  <section id=\"change-table-section\" class=\"table-section\">\n  <table id=\"change-table\" class=\"table\">\n      <caption>\uC794\uB3C8 \uBC18\uD658</caption>\n      <thead>\n          <tr><th>\uB3D9\uC804</th><th>\uAC1C\uC218</th></tr>\n      </thead>\n      <tbody>\n          <tr><td>500\uC6D0</td><td>0\uAC1C</td></tr>\n          <tr><td>100\uC6D0</td><td>0\uAC1C</td></tr>\n          <tr><td>50\uC6D0</td><td>0\uAC1C</td></tr>\n          <tr><td>10\uC6D0</td><td>0\uAC1C</td></tr>\n      </tbody>\n  </table>\n  <button id=\"return-change-button\" class=\"button\">\uBC18\uD658</button>\n</section>\n  ",
   productTableRowInners: function productTableRowInners(_ref) {
     var name = _ref.name,
         price = _ref.price,
@@ -518,9 +872,27 @@ var template = {
     var name = _ref3.name,
         price = _ref3.price,
         quantity = _ref3.quantity;
-    return "\n    <td><input type=\"text\" name=\"name\" placeholder=\"\uC0C1\uD488\uBA85\" value=\"".concat(name, "\"></td>\n    <td><input type=\"number\" name=\"price\" placeholder=\"\uAC00\uACA9\" value=\"").concat(price, "\"></td>\n    <td><input type=\"number\" name=\"quantity\" placeholder=\"\uC218\uB7C9\" value=\"").concat(quantity, "\"></td>\n    <td>\n      <div class=\"button-group\">\n        <button class=\"button product-update-confirm-button\" name=\"product-update-confirm\" type=\"button\">\uD655\uC778</button>\n        <button class=\"button product-update-cancel-button\" name=\"product-update-cancel\" type=\"button\">\uCDE8\uC18C</button>\n      </div>\n    </td>\n");
+    return "\n    <td><input type=\"text\" name=\"name\" placeholder=\"\uC0C1\uD488\uBA85\" value=\"".concat(name, "\"></td>\n    <td><input type=\"number\" name=\"price\" placeholder=\"\uAC00\uACA9\" value=\"").concat(price, "\"></td>\n    <td><input type=\"number\" name=\"quantity\" placeholder=\"\uC218\uB7C9\" value=\"").concat(quantity, "\"></td>\n    <td>\n      <div class=\"button-group\">\n        <button class=\"button product-update-confirm-button\" name=\"product-update-confirm\" type=\"button\">\uD655\uC778</button>\n        <button class=\"button product-update-cancel-button\" name=\"product-update-cancel\" type=\"button\">\uCDE8\uC18C</button>\n      </div>\n    </td>\n  ");
   },
-  holdingAmountTableRows: function holdingAmountTableRows(coins) {
+  productPurchaseTableRowInners: function productPurchaseTableRowInners(_ref4) {
+    var name = _ref4.name,
+        price = _ref4.price,
+        quantity = _ref4.quantity;
+    return "\n  <td>".concat(name, "</td>\n  <td>").concat(price.toLocaleString(), "</td>\n  <td>").concat(quantity, "</td>\n  <td>\n    <button class=\"button product-purchase-button\" name=\"product-purchase\" type=\"button\">\uAD6C\uB9E4</button>\n  </td>\n  ");
+  },
+  productPurchaseTableRows: function productPurchaseTableRows(products) {
+    return products.map(function (_ref5, index) {
+      var name = _ref5.name,
+          price = _ref5.price,
+          quantity = _ref5.quantity;
+      return "\n      <tr data-primary-key=\"".concat(index, "\">\n        ").concat(template.productPurchaseTableRowInners({
+        name: name,
+        price: price,
+        quantity: quantity
+      }), "\n      </tr>");
+    }).join('');
+  },
+  coinTableRows: function coinTableRows(coins) {
     return coins.map(function (coin, index) {
       return "\n      <tr>\n        <td>".concat(_constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE[index], "\uC6D0</td>\n        <td>").concat(coin.toLocaleString(), "\uAC1C</td>\n      </tr>");
     }).join('');
@@ -541,18 +913,16 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/es/Store/HoldingAmountStore.ts":
-/*!********************************************!*\
-  !*** ./src/es/Store/HoldingAmountStore.ts ***!
-  \********************************************/
+/***/ "./src/es/Store/CustomerChargeStore.ts":
+/*!*********************************************!*\
+  !*** ./src/es/Store/CustomerChargeStore.ts ***!
+  \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/es/constants/index.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -564,57 +934,43 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-
-
-var HoldingAmountStore = /** @class */ (function () {
-    function HoldingAmountStore() {
+var CustomerChargeStore = /** @class */ (function () {
+    function CustomerChargeStore() {
         this.state = {
-            coins: [0, 0, 0, 0]
+            customerCharge: 0
         };
         this.subscribers = [];
     }
-    HoldingAmountStore.prototype.addSubscriber = function (subscriber) {
+    CustomerChargeStore.prototype.addSubscriber = function (subscriber) {
         this.subscribers.push(subscriber);
     };
-    HoldingAmountStore.prototype.setState = function (newState) {
+    CustomerChargeStore.prototype.setState = function (newState) {
         var _this = this;
-        var changeStates = Object.entries(newState).map(function (_a) {
-            var key = _a[0];
-            return key;
-        });
+        var changeStates = Object.keys(newState);
         this.state = __assign(__assign({}, this.state), newState);
         this.subscribers.forEach(function (renderMethod) { return renderMethod({ state: _this.state, changeStates: changeStates }); });
     };
-    HoldingAmountStore.prototype.getState = function () {
+    CustomerChargeStore.prototype.getState = function () {
         return __assign({}, this.state);
     };
-    HoldingAmountStore.prototype.getTotalAmount = function () {
-        return this.state.coins.reduce(function (previous, coin, index) { return (previous += _constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE[index] * coin); }, 0);
-    };
-    HoldingAmountStore.prototype.getMaxCoinIndex = function (baseAmount) {
-        return _constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE.findIndex(function (coin) { return baseAmount >= coin; });
-    };
-    HoldingAmountStore.prototype.getRandomCoinsFromAmount = function (amount) {
-        var leftAmount = amount;
-        var returnCoins = [0, 0, 0, 0];
-        while (leftAmount > 0) {
-            var coinIndex = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.getRandomNumber)(this.getMaxCoinIndex(leftAmount), _constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE.length - 1);
-            var randomCoin = _constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE[coinIndex];
-            returnCoins[coinIndex] += 1;
-            leftAmount -= randomCoin;
-        }
-        return returnCoins;
-    };
-    HoldingAmountStore.prototype.addAmount = function (amount) {
-        var coinsToAdd = this.getRandomCoinsFromAmount(amount);
-        var totalCoins = this.state.coins.map(function (value, index) { return value + coinsToAdd[index]; });
+    CustomerChargeStore.prototype.addCharge = function (chargeToAdd) {
+        var updatedCharge = this.state.customerCharge + chargeToAdd;
         this.setState({
-            coins: totalCoins
+            customerCharge: updatedCharge
         });
     };
-    return HoldingAmountStore;
+    CustomerChargeStore.prototype.subtractCharge = function (chargeToSubtract) {
+        if (this.state.customerCharge < chargeToSubtract) {
+            throw new Error('Insufficient customer customerCharge!');
+        }
+        var updatedCharge = this.state.customerCharge - chargeToSubtract;
+        this.setState({
+            customerCharge: updatedCharge
+        });
+    };
+    return CustomerChargeStore;
 }());
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new HoldingAmountStore());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new CustomerChargeStore());
 
 
 /***/ }),
@@ -661,10 +1017,7 @@ var ProductStore = /** @class */ (function () {
     };
     ProductStore.prototype.setState = function (newState) {
         var _this = this;
-        var changeStates = Object.entries(newState).map(function (_a) {
-            var key = _a[0];
-            return key;
-        });
+        var changeStates = Object.keys(newState);
         this.state = __assign(__assign({}, this.state), newState);
         this.subscribers.forEach(function (renderMethod) { return renderMethod({ state: _this.state, changeStates: changeStates }); });
     };
@@ -703,9 +1056,96 @@ var ProductStore = /** @class */ (function () {
             this.updateProduct(productIndex, product);
         }
     };
+    ProductStore.prototype.takeOutProductByIndex = function (index, count) {
+        if (count === void 0) { count = 1; }
+        var updatedProduct = this.state.products[index];
+        updatedProduct.quantity -= count;
+        this.updateProduct(index, updatedProduct);
+    };
     return ProductStore;
 }());
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new ProductStore());
+
+
+/***/ }),
+
+/***/ "./src/es/Store/VendingMachineChargeStore.ts":
+/*!***************************************************!*\
+  !*** ./src/es/Store/VendingMachineChargeStore.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/es/constants/index.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+
+var VendingMachineChargeStore = /** @class */ (function () {
+    function VendingMachineChargeStore() {
+        this.state = {
+            coins: [0, 0, 0, 0]
+        };
+        this.subscribers = [];
+    }
+    VendingMachineChargeStore.prototype.addSubscriber = function (subscriber) {
+        this.subscribers.push(subscriber);
+    };
+    VendingMachineChargeStore.prototype.setState = function (newState) {
+        var _this = this;
+        var changeStates = Object.keys(newState);
+        this.state = __assign(__assign({}, this.state), newState);
+        this.subscribers.forEach(function (renderMethod) { return renderMethod({ state: _this.state, changeStates: changeStates }); });
+    };
+    VendingMachineChargeStore.prototype.getState = function () {
+        return __assign({}, this.state);
+    };
+    VendingMachineChargeStore.prototype.getTotalAmount = function () {
+        return this.state.coins.reduce(function (previous, coin, index) { return (previous += _constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE[index] * coin); }, 0);
+    };
+    VendingMachineChargeStore.prototype.getMaxCoinIndex = function (baseAmount) {
+        return _constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE.findIndex(function (coin) { return baseAmount >= coin; });
+    };
+    VendingMachineChargeStore.prototype.getRandomCoinsFromAmount = function (amount) {
+        var leftAmount = amount;
+        var returnCoins = [0, 0, 0, 0];
+        while (leftAmount > 0) {
+            var coinIndex = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.getRandomNumber)(this.getMaxCoinIndex(leftAmount), _constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE.length - 1);
+            var randomCoin = _constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE[coinIndex];
+            returnCoins[coinIndex] += 1;
+            leftAmount -= randomCoin;
+        }
+        return returnCoins;
+    };
+    VendingMachineChargeStore.prototype.addCharge = function (amount) {
+        var coinsToAdd = this.getRandomCoinsFromAmount(amount);
+        var totalCoins = this.state.coins.map(function (value, index) { return value + coinsToAdd[index]; });
+        this.setState({
+            coins: totalCoins
+        });
+    };
+    VendingMachineChargeStore.prototype.subtractCoins = function (coinsToBeReturned) {
+        var subtractedCoins = this.state.coins.map(function (coin, index) { return coin - coinsToBeReturned[index]; });
+        this.setState({
+            coins: subtractedCoins
+        });
+    };
+    return VendingMachineChargeStore;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new VendingMachineChargeStore());
 
 
 /***/ }),
@@ -809,10 +1249,10 @@ var clearInnerInputValues = function ($target) {
 
 /***/ }),
 
-/***/ "./src/es/validation.ts":
-/*!******************************!*\
-  !*** ./src/es/validation.ts ***!
-  \******************************/
+/***/ "./src/es/validator.ts":
+/*!*****************************!*\
+  !*** ./src/es/validator.ts ***!
+  \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -921,16 +1361,25 @@ var __webpack_exports__ = {};
   \**********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles */ "./src/styles/index.scss");
-/* harmony import */ var _es_View_ProductPageView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./es/View/ProductPageView */ "./src/es/View/ProductPageView.js");
-/* harmony import */ var _es_View_HoldingAmountPageView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./es/View/HoldingAmountPageView */ "./src/es/View/HoldingAmountPageView.js");
+/* harmony import */ var _es_View_ProductManagementPageView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./es/View/ProductManagementPageView */ "./src/es/View/ProductManagementPageView.js");
+/* harmony import */ var _es_View_VendingMachineChargeManagementPageView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./es/View/VendingMachineChargeManagementPageView */ "./src/es/View/VendingMachineChargeManagementPageView.js");
 /* harmony import */ var _es_Router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./es/Router */ "./src/es/Router.js");
+/* harmony import */ var _es_View_ProductPurchasePageView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./es/View/ProductPurchasePageView */ "./src/es/View/ProductPurchasePageView.js");
+/* harmony import */ var _es_View_LoginPageView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./es/View/LoginPageView */ "./src/es/View/LoginPageView.js");
+/* harmony import */ var _es_View_SignUpPageView__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./es/View/SignUpPageView */ "./src/es/View/SignUpPageView.js");
+
+
+
 
 
 
 
 new _es_Router__WEBPACK_IMPORTED_MODULE_3__["default"]({
-    product: new _es_View_ProductPageView__WEBPACK_IMPORTED_MODULE_1__["default"](),
-    holding_amount: new _es_View_HoldingAmountPageView__WEBPACK_IMPORTED_MODULE_2__["default"]()
+    productManagement: new _es_View_ProductManagementPageView__WEBPACK_IMPORTED_MODULE_1__["default"](),
+    vendingMachineChargeManagement: new _es_View_VendingMachineChargeManagementPageView__WEBPACK_IMPORTED_MODULE_2__["default"](),
+    productPurchase: new _es_View_ProductPurchasePageView__WEBPACK_IMPORTED_MODULE_4__["default"](),
+    login: new _es_View_LoginPageView__WEBPACK_IMPORTED_MODULE_5__["default"](),
+    signUp: new _es_View_SignUpPageView__WEBPACK_IMPORTED_MODULE_6__["default"]()
 });
 
 })();
