@@ -302,7 +302,7 @@ var ProductManagementPageView = /*#__PURE__*/function () {
       try {
         (0,_validator__WEBPACK_IMPORTED_MODULE_1__.validateProduct)(product);
       } catch (error) {
-        alert(error.message);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackBar)(error.message);
         return;
       }
 
@@ -374,7 +374,7 @@ var ProductManagementPageView = /*#__PURE__*/function () {
       var $target = _ref3.target;
 
       if (this.isTableUpdating) {
-        alert('한 번에 하나의 상품만 수정 가능합니다.');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackBar)('한 번에 하나의 상품만 수정 가능합니다.');
         return;
       }
 
@@ -400,7 +400,7 @@ var ProductManagementPageView = /*#__PURE__*/function () {
       try {
         (0,_validator__WEBPACK_IMPORTED_MODULE_1__.validateProduct)(product);
       } catch (error) {
-        alert(error.message);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackBar)(error.message);
         return;
       }
 
@@ -450,9 +450,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/index */ "./src/es/utils/index.ts");
 /* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template */ "./src/es/view/template.js");
 /* harmony import */ var _manager_ProductPurchasePageManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../manager/ProductPurchasePageManager */ "./src/es/manager/ProductPurchasePageManager.ts");
+/* harmony import */ var _validator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../validator */ "./src/es/validator.ts");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -464,6 +465,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 
@@ -502,8 +505,16 @@ var ProductPurchasePageView = /*#__PURE__*/function () {
       var _getInnerInputValues = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getInnerInputValues)(event.target),
           customerCharge = _getInnerInputValues.customerCharge;
 
+      try {
+        (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validateCustomerChargeToAdd)(customerCharge);
+      } catch (err) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackBar)(err.message);
+        return;
+      }
+
       _manager_ProductPurchasePageManager__WEBPACK_IMPORTED_MODULE_2__["default"].addCustomerCharge(customerCharge);
-      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('input', event.target).value = '';
+      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.clearInnerInputValues)(event.target);
+      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackBar)('상품 구매 금액 충전 성공! 😆');
     });
 
     _defineProperty(this, "onClickTableInnerButton", function (event) {
@@ -518,12 +529,16 @@ var ProductPurchasePageView = /*#__PURE__*/function () {
       var $tableRow = event.target.closest('tr');
       if (!$tableRow) return;
       var productIndex = $tableRow.dataset.primaryKey;
+      var productName = '';
 
       try {
-        _manager_ProductPurchasePageManager__WEBPACK_IMPORTED_MODULE_2__["default"].purchaseProductByIndex(productIndex);
+        productName = _manager_ProductPurchasePageManager__WEBPACK_IMPORTED_MODULE_2__["default"].purchaseProductByIndex(productIndex);
       } catch (err) {
-        alert(err.message);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackBar)(err.message);
+        return;
       }
+
+      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackBar)("".concat(productName, " \uAD6C\uC785 \uC131\uACF5! \uD83D\uDE06"));
     });
 
     _defineProperty(this, "onClickReturnChangeButton", function () {
@@ -532,6 +547,13 @@ var ProductPurchasePageView = /*#__PURE__*/function () {
       _this.updateChangeTable({
         ReturnedCoins: coinsToBeReturned
       });
+
+      if (_manager_ProductPurchasePageManager__WEBPACK_IMPORTED_MODULE_2__["default"].getState().customerChargeAmount > 0) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackBar)('미안해요. 잔돈이 부족해서 다 돌려줄 수가 없어요. 😥');
+        return;
+      }
+
+      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackBar)('잔돈 반환 성공! 😆');
     });
 
     _defineProperty(this, "render", function (_ref) {
@@ -616,6 +638,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
 /* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/auth */ "./src/es/utils/auth.ts");
+/* harmony import */ var _validator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../validator */ "./src/es/validator.ts");
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -626,7 +649,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var pageTemplate = "\n  <section class=\"user-information-form-section\">\n      <form id=\"signup-form\" >\n          <label>\uC774\uBA54\uC77C<br>\n              <input type=\"email\" name=\"email\" placeholder=\"\uC774\uBA54\uC77C \uC8FC\uC18C\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <label>\uC774\uB984<br>\n              <input type=\"text\" name=\"name\" placeholder=\"\uC774\uB984\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <label>\uBE44\uBC00\uBC88\uD638<br>\n              <input type=\"password\" name=\"password\" placeholder=\"\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <label>\uBE44\uBC00\uBC88\uD638 \uD655\uC778<br>\n              <input type=\"password\" name=\"passwordConfirm\" placeholder=\"\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <button class=\"button accent\">\uD655\uC778</button>\n      </form>\n  </section>\n";
+
+var pageTemplate = "\n  <section class=\"user-information-form-section\">\n      <form id=\"signup-form\" >\n          <label>\uC774\uBA54\uC77C<br>\n              <input type=\"email\" name=\"email\" placeholder=\"\uC774\uBA54\uC77C \uC8FC\uC18C\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <label>\uC774\uB984<br>\n              <input type=\"text\" name=\"name\" placeholder=\"\uC774\uB984\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <label>\uBE44\uBC00\uBC88\uD638<br>\n              <p class=\"input-guide\">\uB300\uBB38\uC790 \uC54C\uD30C\uBCB3, \uC18C\uBB38\uC790 \uC54C\uD30C\uBCB3, \uC22B\uC790\uB97C \uAC01\uAC01 1\uC790 \uC774\uC0C1 \uD3EC\uD568\uD558\uB294 \uC804\uCCB4 8\uC790 \uC774\uC0C1\uC758 \uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD558\uC138\uC694.</p>\n              <input type=\"password\" name=\"password\" placeholder=\"\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <label>\uBE44\uBC00\uBC88\uD638 \uD655\uC778<br>\n              <input type=\"password\" name=\"passwordConfirm\" placeholder=\"\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <button class=\"button accent\">\uD655\uC778</button>\n      </form>\n  </section>\n";
 
 var SignUpPageView = /*#__PURE__*/_createClass(function SignUpPageView() {
   var _this = this;
@@ -647,8 +671,15 @@ var SignUpPageView = /*#__PURE__*/_createClass(function SignUpPageView() {
         password = _getInnerInputValues.password,
         passwordConfirm = _getInnerInputValues.passwordConfirm;
 
-    if (password !== passwordConfirm) {
-      alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+    try {
+      (0,_validator__WEBPACK_IMPORTED_MODULE_2__.validateUserInfo)({
+        email: email,
+        name: name,
+        password: password,
+        passwordConfirm: passwordConfirm
+      });
+    } catch (err) {
+      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackBar)(err.message);
       return;
     }
 
@@ -675,8 +706,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _data_User__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/User */ "./src/es/data/User.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/index */ "./src/es/utils/index.ts");
 /* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/auth */ "./src/es/utils/auth.ts");
+/* harmony import */ var _validator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../validator */ "./src/es/validator.ts");
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -689,10 +721,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
 var pageTemplate = function pageTemplate(_ref) {
   var email = _ref.email,
       name = _ref.name;
-  return "\n  <section class=\"user-information-form-section\">\n      <form id=\"update-my-info-form\" >\n          <label>\uC774\uBA54\uC77C<br>\n              <input type=\"email\" name=\"email\" value=".concat(email, " disabled>\n          </label>\n          <label>\uC774\uB984<br>\n              <input type=\"text\" name=\"name\" value=").concat(name, " placeholder=\"\uC774\uB984\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <label>\uBE44\uBC00\uBC88\uD638<br>\n              <input type=\"password\" name=\"password\" placeholder=\"\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <label>\uBE44\uBC00\uBC88\uD638 \uD655\uC778<br>\n              <input type=\"password\" name=\"passwordConfirm\" placeholder=\"\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <button class=\"button accent\">\uD655\uC778</button>\n      </form>\n  </section>\n");
+  return "\n  <section class=\"user-information-form-section\">\n      <form id=\"update-my-info-form\" >\n          <label>\uC774\uBA54\uC77C<br>\n              <input type=\"email\" name=\"email\" value=".concat(email, " disabled>\n          </label>\n          <label>\uC774\uB984<br>\n              <input type=\"text\" name=\"name\" value=").concat(name, " placeholder=\"\uC774\uB984\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <label>\uBE44\uBC00\uBC88\uD638<br>\n              <p class=\"input-guide\">\uB300\uBB38\uC790 \uC54C\uD30C\uBCB3, \uC18C\uBB38\uC790 \uC54C\uD30C\uBCB3, \uC22B\uC790\uB97C \uAC01\uAC01 1\uC790 \uC774\uC0C1 \uD3EC\uD568\uD558\uB294 \uC804\uCCB4 8\uC790 \uC774\uC0C1\uC758 \uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD558\uC138\uC694.</p>\n              <input type=\"password\" name=\"password\" placeholder=\"\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <label>\uBE44\uBC00\uBC88\uD638 \uD655\uC778<br>\n              <input type=\"password\" name=\"passwordConfirm\" placeholder=\"\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n          </label>\n          <button class=\"button accent\">\uD655\uC778</button>\n      </form>\n  </section>\n");
 };
 
 var UpdateMyInfoPageView = /*#__PURE__*/_createClass(function UpdateMyInfoPageView() {
@@ -717,8 +751,15 @@ var UpdateMyInfoPageView = /*#__PURE__*/_createClass(function UpdateMyInfoPageVi
         password = _getInnerInputValues.password,
         passwordConfirm = _getInnerInputValues.passwordConfirm;
 
-    if (password !== passwordConfirm) {
-      alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+    try {
+      (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validateUserInfo)({
+        email: email,
+        name: name,
+        password: password,
+        passwordConfirm: passwordConfirm
+      });
+    } catch (err) {
+      (0,_utils__WEBPACK_IMPORTED_MODULE_1__.showSnackBar)(err.message);
       return;
     }
 
@@ -845,7 +886,7 @@ var VendingMachineChargeManagementPageView = /*#__PURE__*/function () {
       try {
         (0,_validator__WEBPACK_IMPORTED_MODULE_2__.validateHoldingAmountToAdd)(Number($vendingMachineChargeInput.value), totalAmount);
       } catch (error) {
-        alert(error.message);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_1__.showSnackBar)(error.message);
         return;
       }
 
@@ -949,11 +990,13 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "COIN_TYPE": () => (/* binding */ COIN_TYPE),
-/* harmony export */   "VENDING_MACHINE": () => (/* binding */ VENDING_MACHINE),
+/* harmony export */   "VENDING_MACHINE_CONDITION": () => (/* binding */ VENDING_MACHINE_CONDITION),
+/* harmony export */   "USER_INFO_CONDITION": () => (/* binding */ USER_INFO_CONDITION),
 /* harmony export */   "ERROR_MESSAGE": () => (/* binding */ ERROR_MESSAGE)
 /* harmony export */ });
 var COIN_TYPE = [500, 100, 50, 10].sort(function (a, b) { return b - a; });
-var VENDING_MACHINE = {
+var VENDING_MACHINE_CONDITION = {
+    MONEY_UNIT: 10,
     MIN_PRODUCT_NAME_LENGTH: 1,
     MAX_PRODUCT_NAME_LENGTH: 10,
     MIN_PRODUCT_PRICE: 100,
@@ -961,20 +1004,32 @@ var VENDING_MACHINE = {
     MIN_PRODUCT_QUANTITY: 1,
     MAX_PRODUCT_QUANTITY: 20,
     MAX_HOLDING_AMOUNT: 100000,
-    MONEY_UNIT: 10
+    MAX_CUSTOMER_CHARGE_TO_ADD: 10000
+};
+var USER_INFO_CONDITION = {
+    MIN_NAME_LENGTH: 2,
+    MAX_NAME_LENGTH: 6,
+    PASSWORD_REGEXP: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
 };
 var ERROR_MESSAGE = {
     PRODUCT_NAME_REQUIRED: '상품명을 입력해주세요.',
-    PRODUCT_NAME_LENGTH: "\uC0C1\uD488\uBA85\uC740 ".concat(VENDING_MACHINE.MIN_PRODUCT_NAME_LENGTH, "\uC790\uC5D0\uC11C ").concat(VENDING_MACHINE.MAX_PRODUCT_NAME_LENGTH, "\uC790\uAE4C\uC9C0 \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
+    PRODUCT_NAME_LENGTH: "\uC0C1\uD488\uBA85\uC740 ".concat(VENDING_MACHINE_CONDITION.MIN_PRODUCT_NAME_LENGTH, "\uC790\uC5D0\uC11C ").concat(VENDING_MACHINE_CONDITION.MAX_PRODUCT_NAME_LENGTH, "\uC790\uAE4C\uC9C0 \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
     PRODUCT_PRICE_ONLY_NUMBER: '상품 가격은 숫자만 입력할 수 있습니다.',
-    PRODUCT_PRICE_WRONG_RANGE: "\uC0C1\uD488 \uAC00\uACA9\uC740 ".concat(VENDING_MACHINE.MIN_PRODUCT_PRICE, "\uC6D0\uC5D0\uC11C ").concat(VENDING_MACHINE.MAX_PRODUCT_PRICE, "\uC6D0\uAE4C\uC9C0 \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
-    PRODUCT_PRICE_WRONG_UNIT: "\uC0C1\uD488 \uAC00\uACA9\uC740 ".concat(VENDING_MACHINE.MONEY_UNIT, "\uC6D0 \uB2E8\uC704\uB85C \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
+    PRODUCT_PRICE_WRONG_RANGE: "\uC0C1\uD488 \uAC00\uACA9\uC740 ".concat(VENDING_MACHINE_CONDITION.MIN_PRODUCT_PRICE, "\uC6D0\uC5D0\uC11C ").concat(VENDING_MACHINE_CONDITION.MAX_PRODUCT_PRICE, "\uC6D0\uAE4C\uC9C0 \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
+    PRODUCT_PRICE_WRONG_UNIT: "\uC0C1\uD488 \uAC00\uACA9\uC740 ".concat(VENDING_MACHINE_CONDITION.MONEY_UNIT, "\uC6D0 \uB2E8\uC704\uB85C \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
     PRODUCT_QUANTITY_ONLY_NUMBER: '상품 수량은 숫자만 입력할 수 있습니다.',
-    PRODUCT_QUANTITY_WRONG_RANGE: "\uC0C1\uD488 \uC218\uB7C9\uC740 ".concat(VENDING_MACHINE.MIN_PRODUCT_QUANTITY, "\uAC1C\uC5D0\uC11C \uCD5C\uB300 ").concat(VENDING_MACHINE.MAX_PRODUCT_QUANTITY, "\uAC1C\uAE4C\uC9C0\uB9CC \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
+    PRODUCT_QUANTITY_WRONG_RANGE: "\uC0C1\uD488 \uC218\uB7C9\uC740 ".concat(VENDING_MACHINE_CONDITION.MIN_PRODUCT_QUANTITY, "\uAC1C\uC5D0\uC11C \uCD5C\uB300 ").concat(VENDING_MACHINE_CONDITION.MAX_PRODUCT_QUANTITY, "\uAC1C\uAE4C\uC9C0\uB9CC \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
     HOLDING_AMOUNT_ONLY_NUMBER: '추가할 보유 금액은 숫자만 입력할 수 있습니다.',
-    HOLDING_AMOUNT_WRONG_UNIT: "\uCD94\uAC00\uD560 \uC790\uD310\uAE30 \uBCF4\uC720 \uAE08\uC561\uC740 ".concat(VENDING_MACHINE.MONEY_UNIT, "\uC6D0 \uB2E8\uC704\uB85C \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
-    HOLDING_AMOUNT_WRONG_LIMIT: "\uC790\uD310\uAE30 \uBCF4\uC720 \uAE08\uC561\uC740 ".concat(VENDING_MACHINE.MAX_HOLDING_AMOUNT, "\uC6D0\uAE4C\uC9C0 \uCDA9\uC804\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.")
+    HOLDING_AMOUNT_WRONG_UNIT: "\uCD94\uAC00\uD560 \uC790\uD310\uAE30 \uBCF4\uC720 \uAE08\uC561\uC740 ".concat(VENDING_MACHINE_CONDITION.MONEY_UNIT, "\uC6D0 \uB2E8\uC704\uB85C \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
+    HOLDING_AMOUNT_WRONG_LIMIT: "\uC790\uD310\uAE30 \uBCF4\uC720 \uAE08\uC561\uC740 ".concat(VENDING_MACHINE_CONDITION.MAX_HOLDING_AMOUNT, "\uC6D0\uAE4C\uC9C0 \uCDA9\uC804\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
+    CUSTOMER_CHARGE_ONLY_NUMBER: '상품 구매 금액은 숫자만 입력할 수 있습니다.',
+    CUSTOMER_CHARGE_WRONG_UNIT: "\uC0C1\uD488 \uAD6C\uB9E4 \uAE08\uC561\uC740 ".concat(VENDING_MACHINE_CONDITION.MONEY_UNIT, "\uC6D0 \uB2E8\uC704\uB85C \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
+    CUSTOMER_CHARGE_WRONG_LIMIT: "\uC0C1\uD488 \uAD6C\uB9E4 \uAE08\uC561\uC740 \uD55C \uBC88\uC5D0 ".concat(VENDING_MACHINE_CONDITION.MAX_CUSTOMER_CHARGE_TO_ADD, "\uC6D0\uAE4C\uC9C0 \uCDA9\uC804\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
+    USER_NAME_LENGTH: "\uC774\uB984\uC740 ".concat(USER_INFO_CONDITION.MIN_NAME_LENGTH, "\uC790\uC5D0\uC11C ").concat(USER_INFO_CONDITION.MAX_NAME_LENGTH, "\uC790\uAE4C\uC9C0 \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
+    PASSWORD_CONFIRM: '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
+    PASSWORD_CONDITION: '비밀번호는 숫자, 소문자 알파벳, 대문자 알파벳 각각 1자 이상을 포함하여 전체 8자 이상이어야 합니다.'
 };
+
 
 
 /***/ }),
@@ -1257,12 +1312,13 @@ var ProductPurchasePageManager = /** @class */ (function () {
         });
     };
     ProductPurchasePageManager.prototype.purchaseProductByIndex = function (index) {
-        var price = _data_Products__WEBPACK_IMPORTED_MODULE_2__["default"].products[index].price;
+        var _a = _data_Products__WEBPACK_IMPORTED_MODULE_2__["default"].products[index], name = _a.name, price = _a.price;
         if (price > _data_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].amount) {
-            throw new Error('Too expensive, put more money! 😥');
+            throw new Error('돈이 부족해요! 😥');
         }
         this.subtractCustomerCharge(price);
         this.takeOutProductByIndex(index);
+        return name;
     };
     ProductPurchasePageManager.prototype.takeOutProductByIndex = function (index, count) {
         if (count === void 0) { count = 1; }
@@ -1478,27 +1534,6 @@ __webpack_require__.r(__webpack_exports__);
 var signUpURL = 'http://localhost:3000/signup/';
 var loginURL = 'http://localhost:3000/login/';
 var userInfoURL = function (id) { return "http://localhost:3000/600/users/".concat(id); };
-function requestUserInfo(userAuth) {
-    var id = userAuth.id;
-    var accessToken = "Bearer ".concat(userAuth.accessToken);
-    return fetch(userInfoURL(id), {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: accessToken
-        }
-    })
-        .then(function (res) {
-        if (!res.ok) {
-            throw new Error('사용자 정보 읽기 오류');
-        }
-        return res.json();
-    })
-        .then(function (response) {
-        var email = response.email, name = response.name;
-        _data_User__WEBPACK_IMPORTED_MODULE_0__["default"].setUser({ id: id, email: email, name: name });
-    })["catch"](function (error) { return console.error('에러', error); });
-}
 function signUp(signUpInfo) {
     fetch(signUpURL, {
         method: 'POST',
@@ -1522,7 +1557,7 @@ function signUp(signUpInfo) {
         localStorage.setItem('userAuth', JSON.stringify(userAuth));
         _data_User__WEBPACK_IMPORTED_MODULE_0__["default"].setUser({ id: id, email: email, name: name });
         (0,_routes__WEBPACK_IMPORTED_MODULE_1__.loadMainPage)();
-    })["catch"](function (error) { return console.error('에러', error); });
+    })["catch"](function (error) { return console.error('에러', error.message); });
 }
 function login(loginInfo) {
     fetch(loginURL, {
@@ -1547,13 +1582,34 @@ function login(loginInfo) {
         localStorage.setItem('userAuth', JSON.stringify(userAuth));
         _data_User__WEBPACK_IMPORTED_MODULE_0__["default"].setUser({ id: id, email: email, name: name });
         (0,_routes__WEBPACK_IMPORTED_MODULE_1__.loadMainPage)();
-    })["catch"](function (error) { return console.error('에러', error); });
+    })["catch"](function (error) { return console.error('에러', error.message); });
 }
 var logout = function () {
     localStorage.removeItem('userAuth');
     _data_User__WEBPACK_IMPORTED_MODULE_0__["default"].initialize();
     (0,_routes__WEBPACK_IMPORTED_MODULE_1__.loadMainPage)();
 };
+function requestUserInfo(userAuth) {
+    var id = userAuth.id;
+    var accessToken = "Bearer ".concat(userAuth.accessToken);
+    return fetch(userInfoURL(id), {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: accessToken
+        }
+    })
+        .then(function (res) {
+        if (!res.ok) {
+            throw new Error('사용자 정보 읽기 오류');
+        }
+        return res.json();
+    })
+        .then(function (response) {
+        var email = response.email, name = response.name;
+        _data_User__WEBPACK_IMPORTED_MODULE_0__["default"].setUser({ id: id, email: email, name: name });
+    })["catch"](function (error) { return console.error('에러', error.message); });
+}
 function updateUserInfo(newUserInfo) {
     var userAuth = JSON.parse(localStorage.getItem('userAuth'));
     if (!userAuth)
@@ -1578,7 +1634,7 @@ function updateUserInfo(newUserInfo) {
         var email = response.email, name = response.name;
         _data_User__WEBPACK_IMPORTED_MODULE_0__["default"].setUser({ id: id, email: email, name: name });
         (0,_routes__WEBPACK_IMPORTED_MODULE_1__.loadMainPage)();
-    })["catch"](function (error) { return console.error('에러', error); });
+    })["catch"](function (error) { return console.error('에러', error.message); });
 }
 function getSavedUserInfo() {
     var userAuth = JSON.parse(localStorage.getItem('userAuth'));
@@ -1606,9 +1662,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "isNumberInRange": () => (/* binding */ isNumberInRange),
 /* harmony export */   "isStringLengthInRange": () => (/* binding */ isStringLengthInRange),
 /* harmony export */   "isCorrectNumberUnit": () => (/* binding */ isCorrectNumberUnit),
-/* harmony export */   "getSearchParamsObject": () => (/* binding */ getSearchParamsObject),
 /* harmony export */   "getInnerInputValues": () => (/* binding */ getInnerInputValues),
-/* harmony export */   "clearInnerInputValues": () => (/* binding */ clearInnerInputValues)
+/* harmony export */   "clearInnerInputValues": () => (/* binding */ clearInnerInputValues),
+/* harmony export */   "showSnackBar": () => (/* binding */ showSnackBar)
 /* harmony export */ });
 var $ = function (selector, node) {
     if (node === void 0) { node = document; }
@@ -1628,15 +1684,6 @@ var isStringLengthInRange = function (value, min, max) {
     return value.length >= min && value.length <= max;
 };
 var isCorrectNumberUnit = function (value, unit) { return value % unit === 0; };
-var getSearchParamsObject = function (searchUrl) {
-    if (searchUrl === void 0) { searchUrl = ''; }
-    var searchString = "?".concat(searchUrl.split('?')[1]);
-    var searchParams = new URLSearchParams(searchString);
-    return Array.from(searchParams.keys()).reduce(function (previous, key) {
-        previous[key] = searchParams.get(key);
-        return previous;
-    }, {});
-};
 var getInnerInputValues = function ($target) {
     var $$inputs = Array.from($$('input', $target));
     return $$inputs.reduce(function (previous, inputElement) {
@@ -1647,6 +1694,14 @@ var getInnerInputValues = function ($target) {
 var clearInnerInputValues = function ($target) {
     var $$inputs = Array.from($$('input', $target));
     $$inputs.forEach(function ($input) { return ($input.value = ''); });
+};
+var showSnackBar = function (message) {
+    var $snackBar = $('.snackbar');
+    $snackBar.innerText = message;
+    $snackBar.classList.toggle('show');
+    setTimeout(function () {
+        $snackBar.classList.toggle('show');
+    }, 3000);
 };
 
 
@@ -1661,15 +1716,17 @@ var clearInnerInputValues = function ($target) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "validateProduct": () => (/* binding */ validateProduct),
-/* harmony export */   "validateHoldingAmountToAdd": () => (/* binding */ validateHoldingAmountToAdd)
+/* harmony export */   "validateHoldingAmountToAdd": () => (/* binding */ validateHoldingAmountToAdd),
+/* harmony export */   "validateCustomerChargeToAdd": () => (/* binding */ validateCustomerChargeToAdd),
+/* harmony export */   "validateUserInfo": () => (/* binding */ validateUserInfo)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/es/constants/index.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/es/utils/index.ts");
 
 
-var validateProduct = function (product) {
+function validateProduct(product) {
     var name = product.name, price = product.price, quantity = product.quantity;
-    var MIN_PRODUCT_NAME_LENGTH = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MIN_PRODUCT_NAME_LENGTH, MAX_PRODUCT_NAME_LENGTH = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_PRODUCT_NAME_LENGTH, MIN_PRODUCT_PRICE = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MIN_PRODUCT_PRICE, MAX_PRODUCT_PRICE = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_PRODUCT_PRICE, MONEY_UNIT = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MONEY_UNIT, MIN_PRODUCT_QUANTITY = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MIN_PRODUCT_QUANTITY, MAX_PRODUCT_QUANTITY = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_PRODUCT_QUANTITY;
+    var MIN_PRODUCT_NAME_LENGTH = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE_CONDITION.MIN_PRODUCT_NAME_LENGTH, MAX_PRODUCT_NAME_LENGTH = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE_CONDITION.MAX_PRODUCT_NAME_LENGTH, MIN_PRODUCT_PRICE = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE_CONDITION.MIN_PRODUCT_PRICE, MAX_PRODUCT_PRICE = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE_CONDITION.MAX_PRODUCT_PRICE, MONEY_UNIT = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE_CONDITION.MONEY_UNIT, MIN_PRODUCT_QUANTITY = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE_CONDITION.MIN_PRODUCT_QUANTITY, MAX_PRODUCT_QUANTITY = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE_CONDITION.MAX_PRODUCT_QUANTITY;
     if (name === '')
         throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_NAME_REQUIRED);
     if (!(0,_utils__WEBPACK_IMPORTED_MODULE_1__.isStringLengthInRange)(name, MIN_PRODUCT_NAME_LENGTH, MAX_PRODUCT_NAME_LENGTH))
@@ -1684,18 +1741,37 @@ var validateProduct = function (product) {
         throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_QUANTITY_ONLY_NUMBER);
     if (!(0,_utils__WEBPACK_IMPORTED_MODULE_1__.isNumberInRange)(quantity, MIN_PRODUCT_QUANTITY, MAX_PRODUCT_QUANTITY))
         throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PRODUCT_QUANTITY_WRONG_RANGE);
-    return true;
-};
-var validateHoldingAmountToAdd = function (holdingAmountToAdd, totalAmount) {
-    var MAX_HOLDING_AMOUNT = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MAX_HOLDING_AMOUNT, MONEY_UNIT = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE.MONEY_UNIT;
+}
+function validateHoldingAmountToAdd(holdingAmountToAdd, totalAmount) {
+    var MAX_HOLDING_AMOUNT = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE_CONDITION.MAX_HOLDING_AMOUNT, MONEY_UNIT = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE_CONDITION.MONEY_UNIT;
     if (!Number.isInteger(holdingAmountToAdd))
         throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.HOLDING_AMOUNT_ONLY_NUMBER);
     if (!(0,_utils__WEBPACK_IMPORTED_MODULE_1__.isCorrectNumberUnit)(holdingAmountToAdd, MONEY_UNIT))
         throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.HOLDING_AMOUNT_WRONG_UNIT);
     if (holdingAmountToAdd + totalAmount > MAX_HOLDING_AMOUNT)
         throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.HOLDING_AMOUNT_WRONG_LIMIT);
-    return true;
-};
+}
+function validateCustomerChargeToAdd(customerChargeToAdd) {
+    var MAX_CUSTOMER_CHARGE_TO_ADD = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE_CONDITION.MAX_CUSTOMER_CHARGE_TO_ADD, MONEY_UNIT = _constants__WEBPACK_IMPORTED_MODULE_0__.VENDING_MACHINE_CONDITION.MONEY_UNIT;
+    if (!Number.isInteger(customerChargeToAdd))
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.CUSTOMER_CHARGE_ONLY_NUMBER);
+    if (!(0,_utils__WEBPACK_IMPORTED_MODULE_1__.isCorrectNumberUnit)(customerChargeToAdd, MONEY_UNIT))
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.CUSTOMER_CHARGE_WRONG_UNIT);
+    if (customerChargeToAdd > MAX_CUSTOMER_CHARGE_TO_ADD)
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.CUSTOMER_CHARGE_WRONG_LIMIT);
+}
+function validateUserInfo(userInfo) {
+    var name = userInfo.name, password = userInfo.password, passwordConfirm = userInfo.passwordConfirm;
+    var MIN_NAME_LENGTH = _constants__WEBPACK_IMPORTED_MODULE_0__.USER_INFO_CONDITION.MIN_NAME_LENGTH, MAX_NAME_LENGTH = _constants__WEBPACK_IMPORTED_MODULE_0__.USER_INFO_CONDITION.MAX_NAME_LENGTH;
+    if (!(0,_utils__WEBPACK_IMPORTED_MODULE_1__.isStringLengthInRange)(name, MIN_NAME_LENGTH, MAX_NAME_LENGTH))
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.USER_NAME_LENGTH);
+    if (!_constants__WEBPACK_IMPORTED_MODULE_0__.USER_INFO_CONDITION.PASSWORD_REGEXP.test(password))
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PASSWORD_CONDITION);
+    if (password !== passwordConfirm) {
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.PASSWORD_CONFIRM);
+    }
+}
+
 
 
 /***/ })
