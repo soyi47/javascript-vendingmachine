@@ -236,6 +236,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _validator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../validator */ "./src/es/validator.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
 /* harmony import */ var _manager_ProductManagementPageManager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../manager/ProductManagementPageManager */ "./src/es/manager/ProductManagementPageManager.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constants */ "./src/es/constants/index.ts");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -243,6 +244,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -374,7 +376,7 @@ var ProductManagementPageView = /*#__PURE__*/function () {
       var $target = _ref3.target;
 
       if (this.isTableUpdating) {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackBar)('한 번에 하나의 상품만 수정 가능합니다.');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackBar)(_constants__WEBPACK_IMPORTED_MODULE_4__.GUIDE_MESSAGE.ONE_PRODUCT_UPDATE_AT_ONCE);
         return;
       }
 
@@ -425,7 +427,7 @@ var ProductManagementPageView = /*#__PURE__*/function () {
     key: "onClickDeleteButton",
     value: function onClickDeleteButton(_ref6) {
       var $target = _ref6.target;
-      if (!confirm('정말 해당 상품을 삭제하시겠습니까?')) return;
+      if (!confirm(_constants__WEBPACK_IMPORTED_MODULE_4__.GUIDE_MESSAGE.PRODUCT_DELETE_CONFIRM)) return;
       var $tableRow = $target.closest('tr');
       if (!$tableRow) return;
       var productIndex = $tableRow.dataset.primaryKey;
@@ -454,6 +456,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template */ "./src/es/view/template.js");
 /* harmony import */ var _manager_ProductPurchasePageManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../manager/ProductPurchasePageManager */ "./src/es/manager/ProductPurchasePageManager.ts");
 /* harmony import */ var _validator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../validator */ "./src/es/validator.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constants */ "./src/es/constants/index.ts");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -465,6 +468,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -514,7 +518,7 @@ var ProductPurchasePageView = /*#__PURE__*/function () {
 
       _manager_ProductPurchasePageManager__WEBPACK_IMPORTED_MODULE_2__["default"].addCustomerCharge(customerCharge);
       (0,_utils__WEBPACK_IMPORTED_MODULE_0__.clearInnerInputValues)(event.target);
-      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackBar)('상품 구매 금액 충전 성공! 😆');
+      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackBar)(_constants__WEBPACK_IMPORTED_MODULE_4__.GUIDE_MESSAGE.CUSTOMER_CHARGE_SUCCESS);
     });
 
     _defineProperty(this, "onClickTableInnerButton", function (event) {
@@ -538,7 +542,7 @@ var ProductPurchasePageView = /*#__PURE__*/function () {
         return;
       }
 
-      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackBar)("".concat(productName, " \uAD6C\uC785 \uC131\uACF5! \uD83D\uDE06"));
+      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackBar)(_constants__WEBPACK_IMPORTED_MODULE_4__.GUIDE_MESSAGE.PURCHASE_SUCCESS(productName));
     });
 
     _defineProperty(this, "onClickReturnChangeButton", function () {
@@ -549,11 +553,11 @@ var ProductPurchasePageView = /*#__PURE__*/function () {
       });
 
       if (_manager_ProductPurchasePageManager__WEBPACK_IMPORTED_MODULE_2__["default"].getState().customerChargeAmount > 0) {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackBar)('미안해요. 잔돈이 부족해서 다 돌려줄 수가 없어요. 😥');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackBar)(_constants__WEBPACK_IMPORTED_MODULE_4__.GUIDE_MESSAGE.RETURN_INSUFFICIENT_CHANGES);
         return;
       }
 
-      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackBar)('잔돈 반환 성공! 😆');
+      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackBar)(_constants__WEBPACK_IMPORTED_MODULE_4__.GUIDE_MESSAGE.RETURN_CHANGES_SUCCESS);
     });
 
     _defineProperty(this, "render", function (_ref) {
@@ -573,7 +577,7 @@ var ProductPurchasePageView = /*#__PURE__*/function () {
 
     _defineProperty(this, "updateTotalCustomerCharge", function (_ref2) {
       var customerChargeAmount = _ref2.customerChargeAmount;
-      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('#total-customer-charge').innerText = "".concat(customerChargeAmount, "\uC6D0");
+      (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('#total-customer-charge').innerText = "".concat(customerChargeAmount.toLocaleString(), "\uC6D0");
     });
 
     _defineProperty(this, "updateProductList", function (_ref3) {
@@ -992,7 +996,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "COIN_TYPE": () => (/* binding */ COIN_TYPE),
 /* harmony export */   "VENDING_MACHINE_CONDITION": () => (/* binding */ VENDING_MACHINE_CONDITION),
 /* harmony export */   "USER_INFO_CONDITION": () => (/* binding */ USER_INFO_CONDITION),
-/* harmony export */   "ERROR_MESSAGE": () => (/* binding */ ERROR_MESSAGE)
+/* harmony export */   "ERROR_MESSAGE": () => (/* binding */ ERROR_MESSAGE),
+/* harmony export */   "GUIDE_MESSAGE": () => (/* binding */ GUIDE_MESSAGE)
 /* harmony export */ });
 var COIN_TYPE = [500, 100, 50, 10].sort(function (a, b) { return b - a; });
 var VENDING_MACHINE_CONDITION = {
@@ -1027,7 +1032,17 @@ var ERROR_MESSAGE = {
     CUSTOMER_CHARGE_WRONG_LIMIT: "\uC0C1\uD488 \uAD6C\uB9E4 \uAE08\uC561\uC740 \uD55C \uBC88\uC5D0 ".concat(VENDING_MACHINE_CONDITION.MAX_CUSTOMER_CHARGE_TO_ADD, "\uC6D0\uAE4C\uC9C0 \uCDA9\uC804\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
     USER_NAME_LENGTH: "\uC774\uB984\uC740 ".concat(USER_INFO_CONDITION.MIN_NAME_LENGTH, "\uC790\uC5D0\uC11C ").concat(USER_INFO_CONDITION.MAX_NAME_LENGTH, "\uC790\uAE4C\uC9C0 \uC785\uB825\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."),
     PASSWORD_CONFIRM: '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
-    PASSWORD_CONDITION: '비밀번호는 숫자, 소문자 알파벳, 대문자 알파벳 각각 1자 이상을 포함하여 전체 8자 이상이어야 합니다.'
+    PASSWORD_CONDITION: '비밀번호는 숫자, 소문자 알파벳, 대문자 알파벳 각각 1자 이상을 포함하여 전체 8자 이상이어야 합니다.',
+    INSUFFICIENT_CHARGE_TO_PURCHASE: '돈이 부족해요! 😥'
+};
+var GUIDE_MESSAGE = {
+    PRODUCT_UPDATE_CONFIRM: '이미 존재하는 상품입니다.\n기존 상품 목록에서 덮어씌우시겠습니까?',
+    ONE_PRODUCT_UPDATE_AT_ONCE: '한 번에 하나의 상품만 수정 가능합니다.',
+    PRODUCT_DELETE_CONFIRM: '정말 해당 상품을 삭제하시겠습니까?',
+    CUSTOMER_CHARGE_SUCCESS: '상품 구매 금액 충전 성공! 😆',
+    PURCHASE_SUCCESS: function (productName) { return "".concat(productName, " \uAD6C\uC785 \uC131\uACF5! \uD83D\uDE06"); },
+    RETURN_INSUFFICIENT_CHANGES: '미안해요. 잔돈이 부족해서 다 돌려줄 수가 없어요. 😥',
+    RETURN_CHANGES_SUCCESS: '잔돈 반환 성공! 😆'
 };
 
 
@@ -1153,7 +1168,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _data_Products__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/Products */ "./src/es/data/Products.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/es/constants/index.ts");
+/* harmony import */ var _data_Products__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../data/Products */ "./src/es/data/Products.ts");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -1175,6 +1191,7 @@ var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 
+
 var ProductManagementPageManager = /** @class */ (function () {
     function ProductManagementPageManager() {
         this.subscribers = [];
@@ -1186,35 +1203,35 @@ var ProductManagementPageManager = /** @class */ (function () {
         var changeStates = Object.keys(newState);
         var state = __assign(__assign({}, this.getState()), newState);
         if (changeStates.includes('products'))
-            _data_Products__WEBPACK_IMPORTED_MODULE_0__["default"].setProducts(newState.products);
+            _data_Products__WEBPACK_IMPORTED_MODULE_1__["default"].setProducts(newState.products);
         this.subscribers.forEach(function (renderMethod) { return renderMethod({ state: state, changeStates: changeStates }); });
     };
     ProductManagementPageManager.prototype.getState = function () {
         return {
-            products: _data_Products__WEBPACK_IMPORTED_MODULE_0__["default"].products
+            products: _data_Products__WEBPACK_IMPORTED_MODULE_1__["default"].products
         };
     };
     ProductManagementPageManager.prototype.addProduct = function (product) {
         this.setState({
-            products: __spreadArray(__spreadArray([], _data_Products__WEBPACK_IMPORTED_MODULE_0__["default"].products, true), [product], false)
+            products: __spreadArray(__spreadArray([], _data_Products__WEBPACK_IMPORTED_MODULE_1__["default"].products, true), [product], false)
         });
     };
     ProductManagementPageManager.prototype.updateProduct = function (index, product) {
-        var updateProducts = __spreadArray([], _data_Products__WEBPACK_IMPORTED_MODULE_0__["default"].products, true);
+        var updateProducts = __spreadArray([], _data_Products__WEBPACK_IMPORTED_MODULE_1__["default"].products, true);
         updateProducts.splice(index, 1, product);
         this.setState({
             products: updateProducts
         });
     };
     ProductManagementPageManager.prototype.removeProductByIndex = function (index) {
-        var updateProducts = __spreadArray([], _data_Products__WEBPACK_IMPORTED_MODULE_0__["default"].products, true);
+        var updateProducts = __spreadArray([], _data_Products__WEBPACK_IMPORTED_MODULE_1__["default"].products, true);
         updateProducts.splice(index, 1);
         this.setState({
             products: updateProducts
         });
     };
     ProductManagementPageManager.prototype.findProductIndexByName = function (name) {
-        return _data_Products__WEBPACK_IMPORTED_MODULE_0__["default"].products.findIndex(function (product) { return product.name === name; });
+        return _data_Products__WEBPACK_IMPORTED_MODULE_1__["default"].products.findIndex(function (product) { return product.name === name; });
     };
     ProductManagementPageManager.prototype.addOrUpdateProduct = function (product) {
         var productIndex = this.findProductIndexByName(product.name);
@@ -1222,7 +1239,7 @@ var ProductManagementPageManager = /** @class */ (function () {
             this.addProduct(product);
             return;
         }
-        if (confirm('이미 존재하는 상품입니다.\n기존 상품 목록에서 덮어씌우시겠습니까?')) {
+        if (confirm(_constants__WEBPACK_IMPORTED_MODULE_0__.GUIDE_MESSAGE.PRODUCT_UPDATE_CONFIRM)) {
             this.updateProduct(productIndex, product);
         }
     };
@@ -1314,7 +1331,7 @@ var ProductPurchasePageManager = /** @class */ (function () {
     ProductPurchasePageManager.prototype.purchaseProductByIndex = function (index) {
         var _a = _data_Products__WEBPACK_IMPORTED_MODULE_2__["default"].products[index], name = _a.name, price = _a.price;
         if (price > _data_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].amount) {
-            throw new Error('돈이 부족해요! 😥');
+            throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.INSUFFICIENT_CHARGE_TO_PURCHASE);
         }
         this.subtractCustomerCharge(price);
         this.takeOutProductByIndex(index);
@@ -1529,24 +1546,74 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _data_User__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/User */ "./src/es/data/User.ts");
 /* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../routes */ "./src/es/routes.ts");
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index */ "./src/es/utils/index.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 
 
-var signUpURL = 'http://localhost:3000/signup/';
-var loginURL = 'http://localhost:3000/login/';
-var userInfoURL = function (id) { return "http://localhost:3000/600/users/".concat(id); };
+
+var devURL = 'http://localhost:3000/';
+var deployURL = 'https://soyi47-auth-server.herokuapp.com/';
+var currentAuthServer = deployURL;
+var signUpURL = "".concat(currentAuthServer, "signup/");
+var loginURL = "".concat(currentAuthServer, "login/");
+var userInfoURL = function (id) { return "".concat(currentAuthServer, "600/users/").concat(id); };
 function signUp(signUpInfo) {
+    var _this = this;
     fetch(signUpURL, {
         method: 'POST',
         body: JSON.stringify(signUpInfo),
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(function (res) {
-        if (!res.ok) {
-            throw new Error('회원가입 오류');
-        }
-        return res.json();
-    })
+    }).then(function (res) { return __awaiter(_this, void 0, void 0, function () {
+        var message;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!!res.ok) return [3 /*break*/, 2];
+                    return [4 /*yield*/, res.text()];
+                case 1:
+                    message = _a.sent();
+                    throw new Error(message.slice(1, -1));
+                case 2: return [2 /*return*/, res.json()];
+            }
+        });
+    }); })
         .then(function (response) {
         var _a = response.user, id = _a.id, email = _a.email, name = _a.name;
         var userAuth = {
@@ -1557,21 +1624,34 @@ function signUp(signUpInfo) {
         localStorage.setItem('userAuth', JSON.stringify(userAuth));
         _data_User__WEBPACK_IMPORTED_MODULE_0__["default"].setUser({ id: id, email: email, name: name });
         (0,_routes__WEBPACK_IMPORTED_MODULE_1__.loadMainPage)();
-    })["catch"](function (error) { return console.error('에러', error.message); });
+    })["catch"](function (err) {
+        if (err.message === 'Email already exists') {
+            (0,_index__WEBPACK_IMPORTED_MODULE_2__.showSnackBar)('이미 가입한 이메일입니다.');
+        }
+    });
 }
 function login(loginInfo) {
+    var _this = this;
     fetch(loginURL, {
         method: 'POST',
         body: JSON.stringify(loginInfo),
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(function (res) {
-        if (!res.ok) {
-            throw new Error('로그인 정보 오류');
-        }
-        return res.json();
-    })
+    }).then(function (res) { return __awaiter(_this, void 0, void 0, function () {
+        var message;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!!res.ok) return [3 /*break*/, 2];
+                    return [4 /*yield*/, res.text()];
+                case 1:
+                    message = _a.sent();
+                    throw new Error(message.slice(1, -1));
+                case 2: return [2 /*return*/, res.json()];
+            }
+        });
+    }); })
         .then(function (response) {
         var _a = response.user, id = _a.id, email = _a.email, name = _a.name;
         var userAuth = {
@@ -1582,7 +1662,18 @@ function login(loginInfo) {
         localStorage.setItem('userAuth', JSON.stringify(userAuth));
         _data_User__WEBPACK_IMPORTED_MODULE_0__["default"].setUser({ id: id, email: email, name: name });
         (0,_routes__WEBPACK_IMPORTED_MODULE_1__.loadMainPage)();
-    })["catch"](function (error) { return console.error('에러', error.message); });
+    })["catch"](function (err) {
+        switch (err.message) {
+            case 'Cannot find user':
+                (0,_index__WEBPACK_IMPORTED_MODULE_2__.showSnackBar)('등록되지 않은 이메일입니다.');
+                break;
+            case 'Incorrect password':
+                (0,_index__WEBPACK_IMPORTED_MODULE_2__.showSnackBar)('잘못된 비밀번호입니다.');
+                break;
+            default:
+                break;
+        }
+    });
 }
 var logout = function () {
     localStorage.removeItem('userAuth');
@@ -1590,6 +1681,7 @@ var logout = function () {
     (0,_routes__WEBPACK_IMPORTED_MODULE_1__.loadMainPage)();
 };
 function requestUserInfo(userAuth) {
+    var _this = this;
     var id = userAuth.id;
     var accessToken = "Bearer ".concat(userAuth.accessToken);
     return fetch(userInfoURL(id), {
@@ -1599,18 +1691,27 @@ function requestUserInfo(userAuth) {
             Authorization: accessToken
         }
     })
-        .then(function (res) {
-        if (!res.ok) {
-            throw new Error('사용자 정보 읽기 오류');
-        }
-        return res.json();
-    })
+        .then(function (res) { return __awaiter(_this, void 0, void 0, function () {
+        var message;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!!res.ok) return [3 /*break*/, 2];
+                    return [4 /*yield*/, res.text()];
+                case 1:
+                    message = _a.sent();
+                    throw new Error(message.slice(1, -1));
+                case 2: return [2 /*return*/, res.json()];
+            }
+        });
+    }); })
         .then(function (response) {
         var email = response.email, name = response.name;
         _data_User__WEBPACK_IMPORTED_MODULE_0__["default"].setUser({ id: id, email: email, name: name });
     })["catch"](function (error) { return console.error('에러', error.message); });
 }
 function updateUserInfo(newUserInfo) {
+    var _this = this;
     var userAuth = JSON.parse(localStorage.getItem('userAuth'));
     if (!userAuth)
         return;
@@ -1624,12 +1725,20 @@ function updateUserInfo(newUserInfo) {
             Authorization: accessToken
         }
     })
-        .then(function (res) {
-        if (!res.ok) {
-            throw new Error('사용자 정보 업데이트 오류');
-        }
-        return res.json();
-    })
+        .then(function (res) { return __awaiter(_this, void 0, void 0, function () {
+        var message;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!!res.ok) return [3 /*break*/, 2];
+                    return [4 /*yield*/, res.text()];
+                case 1:
+                    message = _a.sent();
+                    throw new Error(message.slice(1, -1));
+                case 2: return [2 /*return*/, res.json()];
+            }
+        });
+    }); })
         .then(function (response) {
         var email = response.email, name = response.name;
         _data_User__WEBPACK_IMPORTED_MODULE_0__["default"].setUser({ id: id, email: email, name: name });
