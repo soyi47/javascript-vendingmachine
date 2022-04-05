@@ -341,6 +341,9 @@ var ProductManagementPageView = /*#__PURE__*/function () {
           _this.onClickUpdateCancelButton(event);
 
           break;
+
+        default:
+          break;
       }
     });
 
