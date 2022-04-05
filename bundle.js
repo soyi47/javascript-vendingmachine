@@ -925,8 +925,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../constants */ "./src/es/constants/index.ts");
-/* harmony import */ var _data_User__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../data/User */ "./src/es/data/User.ts");
-
 
 var template = {
   userAreaContentForMember: function userAreaContentForMember(name) {
@@ -995,8 +993,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _data_User__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../data/User */ "./src/es/data/User.ts");
-
 var pageTemplate = {
   loginPage: "\n    <section class=\"user-information-form-section\">\n        <form id=\"login-form\" >\n            <label>\uC774\uBA54\uC77C<br>\n                <input type=\"email\" name=\"email\" placeholder=\"\uC774\uBA54\uC77C \uC8FC\uC18C\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n            </label>\n            <label>\uBE44\uBC00\uBC88\uD638<br>\n                <input type=\"password\" name=\"password\" placeholder=\"\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n            </label>\n            <button class=\"button accent\">\uD655\uC778</button>\n        </form>\n        <label>\uC544\uC9C1 \uD68C\uC6D0\uC774 \uC544\uB2C8\uC2E0\uAC00\uC694?<button class=\"text-button\" data-page=\"signUp\">\uD68C\uC6D0\uAC00\uC785</button></label>\n    </section>\n  ",
   signUpPage: "\n    <section class=\"user-information-form-section\">\n        <form id=\"signup-form\" >\n            <label>\uC774\uBA54\uC77C<br>\n                <input type=\"email\" name=\"email\" placeholder=\"\uC774\uBA54\uC77C \uC8FC\uC18C\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n            </label>\n            <label>\uC774\uB984<br>\n                <input type=\"text\" name=\"name\" placeholder=\"\uC774\uB984\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n            </label>\n            <label>\uBE44\uBC00\uBC88\uD638<br>\n                <p class=\"input-guide\">\uB300\uBB38\uC790 \uC54C\uD30C\uBCB3, \uC18C\uBB38\uC790 \uC54C\uD30C\uBCB3, \uC22B\uC790\uB97C \uAC01\uAC01 1\uC790 \uC774\uC0C1 \uD3EC\uD568\uD558\uB294 \uC804\uCCB4 8\uC790 \uC774\uC0C1\uC758 \uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD558\uC138\uC694.</p>\n                <input type=\"password\" name=\"password\" placeholder=\"\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n            </label>\n            <label>\uBE44\uBC00\uBC88\uD638 \uD655\uC778<br>\n                <input type=\"password\" name=\"passwordConfirm\" placeholder=\"\uBE44\uBC00\uBC88\uD638\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694\">\n            </label>\n            <button class=\"button accent\">\uD655\uC778</button>\n        </form>\n    </section>\n  ",
