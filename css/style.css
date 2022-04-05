@@ -446,15 +446,8 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 #add-product-form-section {
   position: relative;
 }
-#add-product-form-section .add-product-input-wrap {
-  height: 2.25rem;
-  display: grid;
-  grid-template-columns: minmax(auto, 28%) minmax(auto, 28%) minmax(auto, 28%) minmax(auto, 16%);
-  grid-gap: 0.25rem;
-}
-#add-product-form-section .add-product-input-wrap > button {
+#add-product-form-section button {
   width: 3.5rem;
-  margin-left: auto;
 }
 
 #vendingmachine-charge-form-section #vendingmachine-charge-form {
