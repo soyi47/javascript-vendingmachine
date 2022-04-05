@@ -15,7 +15,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./template */ "./src/es/view/template/index.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
 /* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/auth */ "./src/es/utils/auth.ts");
-/* harmony import */ var _data_User__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../data/User */ "./src/es/data/User.ts");
+/* harmony import */ var _state_User__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../state/User */ "./src/es/state/User.ts");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -92,7 +92,7 @@ var HeaderView = /*#__PURE__*/function () {
     value: function updateMenuButton(page) {
       this.updateUserArea();
 
-      if (_data_User__WEBPACK_IMPORTED_MODULE_3__["default"].isMember && page !== 'updateMyInfo') {
+      if (_state_User__WEBPACK_IMPORTED_MODULE_3__["default"].isMember && page !== 'updateMyInfo') {
         this.showNavigationMenu();
         this.updateNavigationSelectedMenu(page);
       } else {
@@ -115,8 +115,8 @@ var HeaderView = /*#__PURE__*/function () {
   }, {
     key: "updateUserArea",
     value: function updateUserArea() {
-      if (_data_User__WEBPACK_IMPORTED_MODULE_3__["default"].isMember) {
-        this.$userArea.innerHTML = _template__WEBPACK_IMPORTED_MODULE_0__["default"].userAreaContentForMember(_data_User__WEBPACK_IMPORTED_MODULE_3__["default"].name);
+      if (_state_User__WEBPACK_IMPORTED_MODULE_3__["default"].isMember) {
+        this.$userArea.innerHTML = _template__WEBPACK_IMPORTED_MODULE_0__["default"].userAreaContentForMember(_state_User__WEBPACK_IMPORTED_MODULE_3__["default"].name);
       } else {
         this.$userArea.innerHTML = _template__WEBPACK_IMPORTED_MODULE_0__["default"].userAreaContentForNonMember;
       }
@@ -724,7 +724,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
 /* harmony import */ var _utils_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/auth */ "./src/es/utils/auth.ts");
 /* harmony import */ var _validator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../validator */ "./src/es/validator.ts");
-/* harmony import */ var _data_User__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../data/User */ "./src/es/data/User.ts");
+/* harmony import */ var _state_User__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../state/User */ "./src/es/state/User.ts");
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -746,8 +746,8 @@ var UpdateMyInfoPageView = /*#__PURE__*/_createClass(function UpdateMyInfoPageVi
 
   _defineProperty(this, "loadPage", function () {
     (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.main').innerHTML = _template_page__WEBPACK_IMPORTED_MODULE_0__["default"].updateMyInfoPage({
-      email: _data_User__WEBPACK_IMPORTED_MODULE_4__["default"].email,
-      name: _data_User__WEBPACK_IMPORTED_MODULE_4__["default"].name
+      email: _state_User__WEBPACK_IMPORTED_MODULE_4__["default"].email,
+      name: _state_User__WEBPACK_IMPORTED_MODULE_4__["default"].name
     });
     (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('#update-my-info-form').addEventListener('submit', _this.onSubmitUpdateMyInfoForm);
   });
@@ -1092,115 +1092,6 @@ var GUIDE_MESSAGE = {
 
 /***/ }),
 
-/***/ "./src/es/data/CustomerCharge.ts":
-/*!***************************************!*\
-  !*** ./src/es/data/CustomerCharge.ts ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-var CustomerCharge = /** @class */ (function () {
-    function CustomerCharge() {
-        this.amount = 0;
-    }
-    CustomerCharge.prototype.setAmount = function (amount) { this.amount = amount; };
-    return CustomerCharge;
-}());
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new CustomerCharge());
-
-
-/***/ }),
-
-/***/ "./src/es/data/Products.ts":
-/*!*********************************!*\
-  !*** ./src/es/data/Products.ts ***!
-  \*********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-var Products = /** @class */ (function () {
-    function Products() {
-        this.products = [];
-    }
-    Products.prototype.setProducts = function (products) {
-        this.products = products;
-    };
-    return Products;
-}());
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new Products());
-
-
-/***/ }),
-
-/***/ "./src/es/data/User.ts":
-/*!*****************************!*\
-  !*** ./src/es/data/User.ts ***!
-  \*****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-var User = /** @class */ (function () {
-    function User() {
-        this.initialize();
-    }
-    User.prototype.initialize = function () {
-        this.isMember = false;
-        this.id = null;
-        this.email = null;
-        this.name = null;
-    };
-    User.prototype.setUser = function (_a) {
-        var id = _a.id, email = _a.email, name = _a.name;
-        this.isMember = true;
-        this.id = id;
-        this.email = email;
-        this.name = name;
-    };
-    return User;
-}());
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new User());
-
-
-/***/ }),
-
-/***/ "./src/es/data/VendingMachineCharge.ts":
-/*!*********************************************!*\
-  !*** ./src/es/data/VendingMachineCharge.ts ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/es/constants/index.ts");
-
-var VendingMachineCharge = /** @class */ (function () {
-    function VendingMachineCharge() {
-        this.coins = [0, 0, 0, 0];
-    }
-    VendingMachineCharge.prototype.setCoins = function (coins) {
-        this.coins = coins;
-    };
-    VendingMachineCharge.prototype.getTotalAmount = function () {
-        return this.coins.reduce(function (previous, coin, index) { return (previous += _constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE[index] * coin); }, 0);
-    };
-    return VendingMachineCharge;
-}());
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new VendingMachineCharge());
-
-
-/***/ }),
-
 /***/ "./src/es/manager/ProductManagementPageManager.ts":
 /*!********************************************************!*\
   !*** ./src/es/manager/ProductManagementPageManager.ts ***!
@@ -1212,7 +1103,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/es/constants/index.ts");
-/* harmony import */ var _data_Products__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../data/Products */ "./src/es/data/Products.ts");
+/* harmony import */ var _state_Products__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../state/Products */ "./src/es/state/Products.ts");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -1246,35 +1137,35 @@ var ProductManagementPageManager = /** @class */ (function () {
         var changeStates = Object.keys(newState);
         var state = __assign(__assign({}, this.getState()), newState);
         if (changeStates.includes('products'))
-            _data_Products__WEBPACK_IMPORTED_MODULE_1__["default"].setProducts(newState.products);
+            _state_Products__WEBPACK_IMPORTED_MODULE_1__["default"].setProducts(newState.products);
         this.subscribers.forEach(function (renderMethod) { return renderMethod({ state: state, changeStates: changeStates }); });
     };
     ProductManagementPageManager.prototype.getState = function () {
         return {
-            products: _data_Products__WEBPACK_IMPORTED_MODULE_1__["default"].products
+            products: _state_Products__WEBPACK_IMPORTED_MODULE_1__["default"].products
         };
     };
     ProductManagementPageManager.prototype.addProduct = function (product) {
         this.setState({
-            products: __spreadArray(__spreadArray([], _data_Products__WEBPACK_IMPORTED_MODULE_1__["default"].products, true), [product], false)
+            products: __spreadArray(__spreadArray([], _state_Products__WEBPACK_IMPORTED_MODULE_1__["default"].products, true), [product], false)
         });
     };
     ProductManagementPageManager.prototype.updateProduct = function (index, product) {
-        var updateProducts = __spreadArray([], _data_Products__WEBPACK_IMPORTED_MODULE_1__["default"].products, true);
+        var updateProducts = __spreadArray([], _state_Products__WEBPACK_IMPORTED_MODULE_1__["default"].products, true);
         updateProducts.splice(index, 1, product);
         this.setState({
             products: updateProducts
         });
     };
     ProductManagementPageManager.prototype.removeProductByIndex = function (index) {
-        var updateProducts = __spreadArray([], _data_Products__WEBPACK_IMPORTED_MODULE_1__["default"].products, true);
+        var updateProducts = __spreadArray([], _state_Products__WEBPACK_IMPORTED_MODULE_1__["default"].products, true);
         updateProducts.splice(index, 1);
         this.setState({
             products: updateProducts
         });
     };
     ProductManagementPageManager.prototype.findProductIndexByName = function (name) {
-        return _data_Products__WEBPACK_IMPORTED_MODULE_1__["default"].products.findIndex(function (product) { return product.name === name; });
+        return _state_Products__WEBPACK_IMPORTED_MODULE_1__["default"].products.findIndex(function (product) { return product.name === name; });
     };
     ProductManagementPageManager.prototype.addOrUpdateProduct = function (product) {
         var productIndex = this.findProductIndexByName(product.name);
@@ -1304,9 +1195,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/es/constants/index.ts");
-/* harmony import */ var _data_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../data/CustomerCharge */ "./src/es/data/CustomerCharge.ts");
-/* harmony import */ var _data_Products__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../data/Products */ "./src/es/data/Products.ts");
-/* harmony import */ var _data_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../data/VendingMachineCharge */ "./src/es/data/VendingMachineCharge.ts");
+/* harmony import */ var _state_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../state/CustomerCharge */ "./src/es/state/CustomerCharge.ts");
+/* harmony import */ var _state_Products__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../state/Products */ "./src/es/state/Products.ts");
+/* harmony import */ var _state_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../state/VendingMachineCharge */ "./src/es/state/VendingMachineCharge.ts");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -1342,38 +1233,38 @@ var ProductPurchasePageManager = /** @class */ (function () {
         var changeStates = Object.keys(newState);
         var state = __assign(__assign({}, this.getState()), newState);
         if (changeStates.includes('products'))
-            _data_Products__WEBPACK_IMPORTED_MODULE_2__["default"].setProducts(newState.products);
+            _state_Products__WEBPACK_IMPORTED_MODULE_2__["default"].setProducts(newState.products);
         if (changeStates.includes('vendingMachineChargeCoins'))
-            _data_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_3__["default"].setCoins(newState.vendingMachineChargeCoins);
+            _state_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_3__["default"].setCoins(newState.vendingMachineChargeCoins);
         if (changeStates.includes('customerChargeAmount'))
-            _data_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].setAmount(newState.customerChargeAmount);
+            _state_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].setAmount(newState.customerChargeAmount);
         this.subscribers.forEach(function (renderMethod) { return renderMethod({ state: state, changeStates: changeStates }); });
     };
     ProductPurchasePageManager.prototype.getState = function () {
         return {
-            products: _data_Products__WEBPACK_IMPORTED_MODULE_2__["default"].products,
-            vendingMachineChargeCoins: _data_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_3__["default"].coins,
-            customerChargeAmount: _data_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].amount
+            products: _state_Products__WEBPACK_IMPORTED_MODULE_2__["default"].products,
+            vendingMachineChargeCoins: _state_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_3__["default"].coins,
+            customerChargeAmount: _state_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].amount
         };
     };
     ProductPurchasePageManager.prototype.addCustomerCharge = function (chargeToAdd) {
-        var updatedCharge = _data_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].amount + chargeToAdd;
+        var updatedCharge = _state_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].amount + chargeToAdd;
         this.setState({
             customerChargeAmount: updatedCharge
         });
     };
     ProductPurchasePageManager.prototype.subtractCustomerCharge = function (chargeToSubtract) {
-        if (_data_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].amount < chargeToSubtract) {
+        if (_state_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].amount < chargeToSubtract) {
             throw new Error('Insufficient customer customerCharge!');
         }
-        var updatedCharge = _data_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].amount - chargeToSubtract;
+        var updatedCharge = _state_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].amount - chargeToSubtract;
         this.setState({
             customerChargeAmount: updatedCharge
         });
     };
     ProductPurchasePageManager.prototype.purchaseProductByIndex = function (index) {
-        var _a = _data_Products__WEBPACK_IMPORTED_MODULE_2__["default"].products[index], name = _a.name, price = _a.price;
-        if (price > _data_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].amount) {
+        var _a = _state_Products__WEBPACK_IMPORTED_MODULE_2__["default"].products[index], name = _a.name, price = _a.price;
+        if (price > _state_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].amount) {
             throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.GUIDE_MESSAGE.INSUFFICIENT_CHARGE_TO_PURCHASE);
         }
         this.subtractCustomerCharge(price);
@@ -1382,30 +1273,30 @@ var ProductPurchasePageManager = /** @class */ (function () {
     };
     ProductPurchasePageManager.prototype.takeOutProductByIndex = function (index, count) {
         if (count === void 0) { count = 1; }
-        var updatedProduct = _data_Products__WEBPACK_IMPORTED_MODULE_2__["default"].products[index];
+        var updatedProduct = _state_Products__WEBPACK_IMPORTED_MODULE_2__["default"].products[index];
         updatedProduct.quantity -= count;
-        var updatedProducts = __spreadArray([], _data_Products__WEBPACK_IMPORTED_MODULE_2__["default"].products, true);
+        var updatedProducts = __spreadArray([], _state_Products__WEBPACK_IMPORTED_MODULE_2__["default"].products, true);
         updatedProducts.splice(index, 1, updatedProduct);
         this.setState({
             products: updatedProducts
         });
     };
     ProductPurchasePageManager.prototype.subtractVendingMachineChargeCoins = function (coinsToBeReturned) {
-        var subtractedCoins = _data_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_3__["default"].coins.map(function (coin, index) { return coin - coinsToBeReturned[index]; });
+        var subtractedCoins = _state_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_3__["default"].coins.map(function (coin, index) { return coin - coinsToBeReturned[index]; });
         this.setState({
             vendingMachineChargeCoins: subtractedCoins
         });
     };
     ProductPurchasePageManager.prototype.calculateCoinsToBeReturned = function () {
-        if (_data_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_3__["default"].getTotalAmount() <= _data_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].amount) {
-            return _data_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_3__["default"].coins;
+        if (_state_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_3__["default"].getTotalAmount() <= _state_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].amount) {
+            return _state_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_3__["default"].coins;
         }
         var coinsToBeReturned = [0, 0, 0, 0];
-        var leftCharge = _data_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].amount;
+        var leftCharge = _state_CustomerCharge__WEBPACK_IMPORTED_MODULE_1__["default"].amount;
         _constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE.forEach(function (coin, index) {
             var maxQuantity = Math.floor(leftCharge / coin);
-            var returnQuantity = maxQuantity > _data_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_3__["default"].coins[index]
-                ? _data_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_3__["default"].coins[index] : maxQuantity;
+            var returnQuantity = maxQuantity > _state_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_3__["default"].coins[index]
+                ? _state_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_3__["default"].coins[index] : maxQuantity;
             coinsToBeReturned[index] = returnQuantity;
             leftCharge -= returnQuantity * coin;
         });
@@ -1437,7 +1328,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/es/constants/index.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/es/utils/index.ts");
-/* harmony import */ var _data_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../data/VendingMachineCharge */ "./src/es/data/VendingMachineCharge.ts");
+/* harmony import */ var _state_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../state/VendingMachineCharge */ "./src/es/state/VendingMachineCharge.ts");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -1463,16 +1354,16 @@ var VendingMachineChargeManagementPageManager = /** @class */ (function () {
         var changeStates = Object.keys(newState);
         var state = __assign(__assign({}, this.getState()), newState);
         if (changeStates.includes('coins'))
-            _data_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_2__["default"].setCoins(newState.coins);
+            _state_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_2__["default"].setCoins(newState.coins);
         this.subscribers.forEach(function (renderMethod) { return renderMethod({ state: state, changeStates: changeStates }); });
     };
     VendingMachineChargeManagementPageManager.prototype.getState = function () {
         return {
-            coins: _data_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_2__["default"].coins
+            coins: _state_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_2__["default"].coins
         };
     };
     VendingMachineChargeManagementPageManager.prototype.getTotalAmount = function () {
-        return _data_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_2__["default"].getTotalAmount();
+        return _state_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_2__["default"].getTotalAmount();
     };
     VendingMachineChargeManagementPageManager.prototype.getMaxCoinIndex = function (baseAmount) {
         return _constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE.findIndex(function (coin) { return baseAmount >= coin; });
@@ -1490,13 +1381,13 @@ var VendingMachineChargeManagementPageManager = /** @class */ (function () {
     };
     VendingMachineChargeManagementPageManager.prototype.addCharge = function (amount) {
         var coinsToAdd = this.getRandomCoinsFromAmount(amount);
-        var totalCoins = _data_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_2__["default"].coins.map(function (value, index) { return value + coinsToAdd[index]; });
+        var totalCoins = _state_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_2__["default"].coins.map(function (value, index) { return value + coinsToAdd[index]; });
         this.setState({
             coins: totalCoins
         });
     };
     VendingMachineChargeManagementPageManager.prototype.subtractCoins = function (coinsToBeReturned) {
-        var subtractedCoins = _data_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_2__["default"].coins.map(function (coin, index) { return coin - coinsToBeReturned[index]; });
+        var subtractedCoins = _state_VendingMachineCharge__WEBPACK_IMPORTED_MODULE_2__["default"].coins.map(function (coin, index) { return coin - coinsToBeReturned[index]; });
         this.setState({
             coins: subtractedCoins
         });
@@ -1572,6 +1463,115 @@ function initRouteEvent() {
 
 /***/ }),
 
+/***/ "./src/es/state/CustomerCharge.ts":
+/*!****************************************!*\
+  !*** ./src/es/state/CustomerCharge.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var CustomerCharge = /** @class */ (function () {
+    function CustomerCharge() {
+        this.amount = 0;
+    }
+    CustomerCharge.prototype.setAmount = function (amount) { this.amount = amount; };
+    return CustomerCharge;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new CustomerCharge());
+
+
+/***/ }),
+
+/***/ "./src/es/state/Products.ts":
+/*!**********************************!*\
+  !*** ./src/es/state/Products.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var Products = /** @class */ (function () {
+    function Products() {
+        this.products = [];
+    }
+    Products.prototype.setProducts = function (products) {
+        this.products = products;
+    };
+    return Products;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new Products());
+
+
+/***/ }),
+
+/***/ "./src/es/state/User.ts":
+/*!******************************!*\
+  !*** ./src/es/state/User.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var User = /** @class */ (function () {
+    function User() {
+        this.initialize();
+    }
+    User.prototype.initialize = function () {
+        this.isMember = false;
+        this.id = null;
+        this.email = null;
+        this.name = null;
+    };
+    User.prototype.setUser = function (_a) {
+        var id = _a.id, email = _a.email, name = _a.name;
+        this.isMember = true;
+        this.id = id;
+        this.email = email;
+        this.name = name;
+    };
+    return User;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new User());
+
+
+/***/ }),
+
+/***/ "./src/es/state/VendingMachineCharge.ts":
+/*!**********************************************!*\
+  !*** ./src/es/state/VendingMachineCharge.ts ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/es/constants/index.ts");
+
+var VendingMachineCharge = /** @class */ (function () {
+    function VendingMachineCharge() {
+        this.coins = [0, 0, 0, 0];
+    }
+    VendingMachineCharge.prototype.setCoins = function (coins) {
+        this.coins = coins;
+    };
+    VendingMachineCharge.prototype.getTotalAmount = function () {
+        return this.coins.reduce(function (previous, coin, index) { return (previous += _constants__WEBPACK_IMPORTED_MODULE_0__.COIN_TYPE[index] * coin); }, 0);
+    };
+    return VendingMachineCharge;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new VendingMachineCharge());
+
+
+/***/ }),
+
 /***/ "./src/es/utils/auth.ts":
 /*!******************************!*\
   !*** ./src/es/utils/auth.ts ***!
@@ -1588,7 +1588,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getSavedAuthInfo": () => (/* binding */ getSavedAuthInfo)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/es/constants/index.ts");
-/* harmony import */ var _data_User__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../data/User */ "./src/es/data/User.ts");
+/* harmony import */ var _state_User__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../state/User */ "./src/es/state/User.ts");
 /* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../routes */ "./src/es/routes.ts");
 /* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index */ "./src/es/utils/index.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -1667,7 +1667,7 @@ function signUp(signUpInfo) {
             expiration: Date.now() + 1000 * 60 * 60
         };
         localStorage.setItem('userAuth', JSON.stringify(userAuth));
-        _data_User__WEBPACK_IMPORTED_MODULE_1__["default"].setUser({ id: id, email: email, name: name });
+        _state_User__WEBPACK_IMPORTED_MODULE_1__["default"].setUser({ id: id, email: email, name: name });
         (0,_routes__WEBPACK_IMPORTED_MODULE_2__.loadMainPage)();
         (0,_index__WEBPACK_IMPORTED_MODULE_3__.showSnackBar)(_constants__WEBPACK_IMPORTED_MODULE_0__.GUIDE_MESSAGE.SIGNUP_SUCCESS);
     })["catch"](function (err) {
@@ -1706,7 +1706,7 @@ function login(loginInfo) {
             expiration: Date.now() + 1000 * 60 * 60
         };
         localStorage.setItem('userAuth', JSON.stringify(userAuth));
-        _data_User__WEBPACK_IMPORTED_MODULE_1__["default"].setUser({ id: id, email: email, name: name });
+        _state_User__WEBPACK_IMPORTED_MODULE_1__["default"].setUser({ id: id, email: email, name: name });
         (0,_routes__WEBPACK_IMPORTED_MODULE_2__.loadMainPage)();
         (0,_index__WEBPACK_IMPORTED_MODULE_3__.showSnackBar)(_constants__WEBPACK_IMPORTED_MODULE_0__.GUIDE_MESSAGE.LOGIN_SUCCESS);
     })["catch"](function (err) {
@@ -1724,7 +1724,7 @@ function login(loginInfo) {
 }
 var logout = function () {
     localStorage.removeItem('userAuth');
-    _data_User__WEBPACK_IMPORTED_MODULE_1__["default"].initialize();
+    _state_User__WEBPACK_IMPORTED_MODULE_1__["default"].initialize();
     (0,_routes__WEBPACK_IMPORTED_MODULE_2__.loadMainPage)();
 };
 function requestUserInfo(userAuth) {
@@ -1754,7 +1754,7 @@ function requestUserInfo(userAuth) {
     }); })
         .then(function (response) {
         var email = response.email, name = response.name;
-        _data_User__WEBPACK_IMPORTED_MODULE_1__["default"].setUser({ id: id, email: email, name: name });
+        _state_User__WEBPACK_IMPORTED_MODULE_1__["default"].setUser({ id: id, email: email, name: name });
     })["catch"](function (error) { return console.error('에러', error.message); });
 }
 function updateUserInfo(newUserInfo) {
@@ -1788,7 +1788,7 @@ function updateUserInfo(newUserInfo) {
     }); })
         .then(function (response) {
         var email = response.email, name = response.name;
-        _data_User__WEBPACK_IMPORTED_MODULE_1__["default"].setUser({ id: id, email: email, name: name });
+        _state_User__WEBPACK_IMPORTED_MODULE_1__["default"].setUser({ id: id, email: email, name: name });
         (0,_routes__WEBPACK_IMPORTED_MODULE_2__.loadMainPage)();
         (0,_index__WEBPACK_IMPORTED_MODULE_3__.showSnackBar)(_constants__WEBPACK_IMPORTED_MODULE_0__.GUIDE_MESSAGE.UPDATE_USER_INFO_SUCCESS);
     })["catch"](function (error) { return console.error('에러', error.message); });
