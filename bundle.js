@@ -28,6 +28,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+var titleText = {
+  specifiedPage: {
+    login: '로그인',
+    signUp: '회원가입',
+    updateMyInfo: '회원 정보 수정'
+  },
+  "default": '🍿 자판기 🍿'
+};
 
 var HeaderView = /*#__PURE__*/function () {
   function HeaderView() {
@@ -57,8 +65,6 @@ var HeaderView = /*#__PURE__*/function () {
   }, {
     key: "onClickUserArea",
     value: function onClickUserArea(event) {
-      if (event.target.tagName !== 'BUTTON' && event.target.tagName !== 'LI') return;
-
       if (event.target.name === 'thumbnail-button') {
         (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('#member-menu', this.$userArea).classList.toggle('hidden');
       }
@@ -70,22 +76,14 @@ var HeaderView = /*#__PURE__*/function () {
   }, {
     key: "updateTitle",
     value: function updateTitle(page) {
-      switch (page) {
-        case 'login':
-          this.$title.innerText = '로그인';
-          break;
+      var specifiedPageNames = Object.keys(titleText.specifiedPage);
 
-        case 'signUp':
-          this.$title.innerText = '회원가입';
-          break;
-
-        case 'updateMyInfo':
-          this.$title.innerText = '회원 정보 수정';
-          break;
-
-        default:
-          this.$title.innerText = '🍿 자판기 🍿';
+      if (specifiedPageNames.includes(page)) {
+        this.$title.innerText = titleText.specifiedPage[page];
+        return;
       }
+
+      this.$title.innerText = titleText["default"];
     }
   }, {
     key: "updateMenuButton",
@@ -93,23 +91,23 @@ var HeaderView = /*#__PURE__*/function () {
       this.updateUserArea();
 
       if (_state_User__WEBPACK_IMPORTED_MODULE_3__["default"].isMember && page !== 'updateMyInfo') {
-        this.showNavigationMenu();
+        this.setNavigationMenu(true);
         this.updateNavigationSelectedMenu(page);
       } else {
-        this.hideNavigationMenu();
+        this.setNavigationMenu(false);
       }
 
       switch (page) {
         case 'login':
         case 'signUp':
         case 'updateMyInfo':
-          this.showGoMainButton();
-          this.hideUserArea();
+          this.setGoMainButtonVisibility(true);
+          this.setUserAreaVisibility(false);
           break;
 
         default:
-          this.hideGoMainButton();
-          this.showUserArea();
+          this.setGoMainButtonVisibility(false);
+          this.setUserAreaVisibility(true);
       }
     }
   }, {
@@ -122,46 +120,25 @@ var HeaderView = /*#__PURE__*/function () {
       }
     }
   }, {
-    key: "showUserArea",
-    value: function showUserArea() {
-      if (this.$userArea.classList.contains('hidden')) {
-        this.$userArea.classList.remove('hidden');
-      }
+    key: "setUserAreaVisibility",
+    value: function setUserAreaVisibility(visible) {
+      var userAreaClassList = this.$userArea.classList;
+      if (visible && userAreaClassList.contains('hidden')) userAreaClassList.remove('hidden');
+      if (!visible && !userAreaClassList.contains('hidden')) userAreaClassList.add('hidden');
     }
   }, {
-    key: "hideUserArea",
-    value: function hideUserArea() {
-      if (!this.$userArea.classList.contains('hidden')) {
-        this.$userArea.classList.add('hidden');
-      }
+    key: "setGoMainButtonVisibility",
+    value: function setGoMainButtonVisibility(visible) {
+      var goMainButtonClassList = this.$goMainButton.classList;
+      if (visible && goMainButtonClassList.contains('hidden')) goMainButtonClassList.remove('hidden');
+      if (!visible && !goMainButtonClassList.contains('hidden')) goMainButtonClassList.add('hidden');
     }
   }, {
-    key: "showGoMainButton",
-    value: function showGoMainButton() {
-      if (this.$goMainButton.classList.contains('hidden')) {
-        this.$goMainButton.classList.remove('hidden');
-      }
-    }
-  }, {
-    key: "hideGoMainButton",
-    value: function hideGoMainButton() {
-      if (!this.$goMainButton.classList.contains('hidden')) {
-        this.$goMainButton.classList.add('hidden');
-      }
-    }
-  }, {
-    key: "showNavigationMenu",
-    value: function showNavigationMenu() {
-      if (this.$nav.classList.contains('hidden')) {
-        this.$nav.classList.remove('hidden');
-      }
-    }
-  }, {
-    key: "hideNavigationMenu",
-    value: function hideNavigationMenu() {
-      if (!this.$nav.classList.contains('hidden')) {
-        this.$nav.classList.add('hidden');
-      }
+    key: "setNavigationMenu",
+    value: function setNavigationMenu(visible) {
+      var navClassList = this.$nav.classList;
+      if (visible && navClassList.contains('hidden')) navClassList.remove('hidden');
+      if (!visible && !navClassList.contains('hidden')) navClassList.add('hidden');
     }
   }, {
     key: "updateNavigationSelectedMenu",
@@ -1408,6 +1385,7 @@ var VendingMachineChargeManagementPageManager = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "initRouteEvent": () => (/* binding */ initRouteEvent),
+/* harmony export */   "loadCurrentPage": () => (/* binding */ loadCurrentPage),
 /* harmony export */   "loadMainPage": () => (/* binding */ loadMainPage)
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/es/utils/index.ts");
@@ -1418,6 +1396,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _view_ProductManagementPageView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./view/ProductManagementPageView */ "./src/es/view/ProductManagementPageView.js");
 /* harmony import */ var _view_VendingMachineChargeManagementPageView__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./view/VendingMachineChargeManagementPageView */ "./src/es/view/VendingMachineChargeManagementPageView.js");
 /* harmony import */ var _view_ProductPurchasePageView__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./view/ProductPurchasePageView */ "./src/es/view/ProductPurchasePageView.js");
+/* harmony import */ var _state_User__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./state/User */ "./src/es/state/User.ts");
 
 
 
@@ -1426,7 +1405,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var mainPage = 'productPurchase';
+
 var path = location.pathname.slice(0, -1);
 var loadPageMethods = {
     login: _view_LoginPageView__WEBPACK_IMPORTED_MODULE_2__["default"].loadPage,
@@ -1444,8 +1423,18 @@ function loadPage(page) {
     history.pushState(paramsObject, '', "".concat(path, "?").concat(params.toString()));
 }
 var loadMainPage = function () {
+    var mainPage = _state_User__WEBPACK_IMPORTED_MODULE_8__["default"].isMember ? 'productManagement' : 'productPurchase';
     loadPage(mainPage);
 };
+function loadCurrentPage() {
+    var currentParams = (new URL(location.href)).searchParams;
+    var currentPage = currentParams.get('page');
+    if (currentPage) {
+        loadPage(currentPage);
+        return;
+    }
+    loadMainPage();
+}
 function initRouteEvent() {
     (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('#app').addEventListener('click', function (event) {
         var page = event.target.dataset.page;
@@ -1645,7 +1634,8 @@ function signUp(signUpInfo) {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(function (res) { return __awaiter(_this, void 0, void 0, function () {
+    })
+        .then(function (res) { return __awaiter(_this, void 0, void 0, function () {
         var message;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -1861,14 +1851,38 @@ var clearInnerInputValues = function ($target) {
     var $$inputs = Array.from($$('input', $target));
     $$inputs.forEach(function ($input) { return ($input.value = ''); });
 };
-var showSnackBar = function (message) {
+function showSnackBar(message) {
     var $snackBar = $('.snackbar');
     $snackBar.innerText = message;
     $snackBar.classList.toggle('show');
-    setTimeout(function () {
-        $snackBar.classList.toggle('show');
-    }, 3000);
-};
+    var start = null;
+    function animation(timeStamp) {
+        if (!start)
+            start = timeStamp;
+        var progress = timeStamp - start;
+        if (progress < 3000) {
+            if (progress < 500) {
+                $snackBar.style.opacity = progress / 500;
+                $snackBar.style.transform = "translateY(calc(100% - ".concat((progress / 500) * 150, "%))");
+            }
+            else if (progress < 2500) {
+                $snackBar.style.opacity = 1;
+                $snackBar.style.transform = 'translateY(-50%)';
+            }
+            else {
+                $snackBar.style.opacity = 1 - (progress - 2500) / 500;
+                $snackBar.style.transform = "translateY(calc(-50% + ".concat(((progress - 2500) / 500) * 150, "%))");
+            }
+            window.requestAnimationFrame(animation);
+        }
+        else {
+            $snackBar.classList.toggle('show');
+            $snackBar.style.opacity = '';
+            $snackBar.style.transform = '';
+        }
+    }
+    window.requestAnimationFrame(animation);
+}
 
 
 /***/ }),
@@ -2013,10 +2027,10 @@ __webpack_require__.r(__webpack_exports__);
 
 var initialAuthInfo = (0,_es_utils_auth__WEBPACK_IMPORTED_MODULE_1__.getSavedAuthInfo)();
 if (initialAuthInfo.accessToken) {
-    (0,_es_utils_auth__WEBPACK_IMPORTED_MODULE_1__.requestUserInfo)(initialAuthInfo).then(function () { return (0,_es_routes__WEBPACK_IMPORTED_MODULE_2__.loadMainPage)(); });
+    (0,_es_utils_auth__WEBPACK_IMPORTED_MODULE_1__.requestUserInfo)(initialAuthInfo).then(function () { return (0,_es_routes__WEBPACK_IMPORTED_MODULE_2__.loadCurrentPage)(); });
 }
 else {
-    (0,_es_routes__WEBPACK_IMPORTED_MODULE_2__.loadMainPage)();
+    (0,_es_routes__WEBPACK_IMPORTED_MODULE_2__.loadCurrentPage)();
 }
 (0,_es_routes__WEBPACK_IMPORTED_MODULE_2__.initRouteEvent)();
 
